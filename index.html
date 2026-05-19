@@ -4,91 +4,201 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="MCS Tracker">
-<meta name="theme-color" content="#080808">
-<title>MCS Tracker</title>
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Meridian">
+<meta name="theme-color" content="#ede8da">
+<title>Meridian</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,300;1,9..144,400;1,9..144,600;1,9..144,700&family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;background:#080808;color:#f0f0f0;font-family:'Inter',sans-serif;font-size:15px;line-height:1.5}
+html,body{height:100%;background:#ede8da;color:#1e1a14;font-family:'Instrument Sans',sans-serif;font-size:15px;line-height:1.5}
 body{overscroll-behavior:none}
-#root{max-width:480px;margin:0 auto;padding:0 16px 88px}
-input,select,textarea,button{font-family:'Inter',sans-serif}
+#root{max-width:480px;margin:0 auto;padding:0 24px 110px}
+input,select,textarea,button{font-family:'Instrument Sans',sans-serif}
 button{cursor:pointer}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
 
-/* typography */
-.playfair{font-family:'Playfair Display',serif}
-.mono{font-family:'JetBrains Mono',monospace}
-
-/* nav */
-.bnav{position:fixed;bottom:0;left:0;right:0;background:#0c0c0c;border-top:1px solid #1a1a2e;display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom,12px)}
-.nbtn{flex:1;padding:10px 2px 8px;border:none;background:none;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9px;color:#3a3a5c;cursor:pointer;transition:color 0.2s;font-family:'Inter',sans-serif;letter-spacing:0.03em;text-transform:uppercase;font-weight:500}
-.nbtn.on{color:#8b5cf6}
-.nbtn svg{width:20px;height:20px}
-
-/* cards — sharp */
-.card{background:#0f0f1a;border:1px solid #1a1a2e;border-radius:0;padding:16px}
-.card-accent{background:#0f0f1a;border:1px solid #8b5cf6;border-radius:0;padding:16px}
-.card-sm{background:#0f0f1a;border:1px solid #1a1a2e;border-radius:0;padding:12px 14px}
-.surface{background:#1a1a2e;border-radius:0;padding:12px 14px}
-
-/* inputs */
-.finput{width:100%;padding:10px 12px;font-size:14px;border:1px solid #1a1a2e;border-radius:0;background:#0c0c1a;color:#f0f0f0;outline:none;transition:border-color 0.2s;font-family:'Inter',sans-serif}
-.finput:focus{border-color:#8b5cf6}
-.finput::placeholder{color:#2a2a4a}
-.finput:disabled{opacity:0.35;cursor:default}
-
-/* pills — rounded */
-.pill{font-size:11px;padding:5px 12px;border-radius:20px;border:1px solid #1a1a2e;background:transparent;color:#3a3a5c;cursor:pointer;white-space:nowrap;transition:all 0.2s;font-family:'Inter',sans-serif;font-weight:500;letter-spacing:0.02em}
-.pill.on{background:#8b5cf6;color:#fff;border-color:#8b5cf6}
-
-/* checkbox */
-.chk{width:20px;height:20px;border-radius:4px;border:1px solid #2a2a4a;background:#0c0c1a;flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s}
-.chk.on{background:#8b5cf6;border-color:#8b5cf6}
-
-/* buttons */
-.btn-p{width:100%;padding:14px;font-size:14px;font-weight:600;border:none;border-radius:0;background:#8b5cf6;color:#fff;cursor:pointer;letter-spacing:0.05em;text-transform:uppercase;transition:opacity 0.2s}
-.btn-p:disabled{opacity:0.25;cursor:default}
-.btn-s{width:100%;padding:12px;font-size:13px;border:1px solid #1a1a2e;border-radius:0;background:transparent;color:#555577;cursor:pointer;letter-spacing:0.04em;text-transform:uppercase;font-weight:500}
-
-/* tab switcher */
-.tsw{display:flex;gap:0;background:#0c0c1a;border:1px solid #1a1a2e;border-radius:0;overflow:hidden;margin-bottom:20px}
-.tswb{flex:1;padding:9px 6px;font-size:12px;border:none;border-right:1px solid #1a1a2e;background:transparent;color:#3a3a5c;cursor:pointer;transition:all 0.2s;white-space:nowrap;font-weight:500;letter-spacing:0.03em;text-transform:uppercase}
-.tswb:last-child{border-right:none}
-.tswb.on{background:#8b5cf6;color:#fff}
-
-/* progress bar */
-.pbar{height:2px;background:#1a1a2e;overflow:hidden}
-.pbar-fill{height:100%;background:linear-gradient(90deg,#8b5cf6,#a78bfa);transition:width 0.5s}
-
-/* colors */
-/* accent */
 :root{
-  --ac:#8b5cf6;--ac2:#6d28d9;--acbg:rgba(139,92,246,0.1);--acbord:rgba(139,92,246,0.25);
-  --win:#10b981;--winbg:rgba(16,185,129,0.1);--winbord:rgba(16,185,129,0.25);--wintxt:#10b981;
-  --loss:#ef4444;--lossbg:rgba(239,68,68,0.1);--lossbord:rgba(239,68,68,0.25);--losstxt:#ef4444;
-  --be:#f59e0b;--bebg:rgba(245,158,11,0.1);--betxt:#f59e0b;
+  --bg:#ede8da;
+  --bg2:#e4dece;
+  --bg3:#d9d2c0;
+  --ink:#1e1a14;
+  --ink70:#5a5448;
+  --ink40:#9c9485;
+  --ink15:#ccc6b8;
+  --blue:#1e3d5c;
+  --blue2:#2a5278;
+  --blue-bg:rgba(30,61,92,0.07);
+  --blue-bord:rgba(30,61,92,0.15);
+  --win:#2d6a4f;
+  --win-bg:rgba(45,106,79,0.08);
+  --win-bord:rgba(45,106,79,0.2);
+  --loss:#8b3020;
+  --loss-bg:rgba(139,48,32,0.07);
+  --loss-bord:rgba(139,48,32,0.18);
+  --be:#7a5c10;
+  --be-bg:rgba(122,92,16,0.07);
+  --be-bord:rgba(122,92,16,0.18);
+  --r:14px;
+  --r-sm:10px;
 }
 
-.div{height:1px;background:#1a1a2e;margin:20px 0}
-.lbl{font-size:10px;font-weight:600;color:#3a3a5c;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px}
+/* ── ISLAND NAV ── */
+.bnav{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  background:#1e1a14;border-radius:60px;
+  display:flex;z-index:100;padding:8px;gap:2px;
+  box-shadow:0 8px 40px rgba(30,26,20,0.22),0 2px 8px rgba(30,26,20,0.12);
+  max-width:400px;width:calc(100% - 32px);
+}
+.nbtn{
+  flex:1;padding:9px 6px;border:none;background:none;
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  color:rgba(237,232,218,0.3);cursor:pointer;
+  transition:all 0.2s;border-radius:50px;
+  font-size:10px;font-weight:600;letter-spacing:0.03em;
+  font-family:'Instrument Sans',sans-serif;white-space:nowrap;
+}
+.nbtn.on{background:rgba(237,232,218,0.1);color:#ede8da}
+.nbtn svg{width:19px;height:19px;flex-shrink:0}
+.nbtn-lbl{display:none;font-size:9px;line-height:1}
+.nbtn.on .nbtn-lbl{display:block}
+
+/* ── EYEBROW / SECTION HEADER ── */
+.eyebrow{
+  font-family:'Instrument Sans',sans-serif;
+  font-size:10px;font-weight:600;
+  color:var(--ink40);text-transform:uppercase;
+  letter-spacing:0.12em;margin-bottom:4px;
+}
+.page-title{
+  font-family:'Fraunces',serif;
+  font-size:46px;font-weight:700;
+  color:var(--ink);line-height:1.0;
+  letter-spacing:-1.5px;margin-bottom:6px;
+}
+.page-sub{
+  font-family:'Instrument Serif',serif;
+  font-style:italic;font-size:15px;
+  color:var(--ink70);line-height:1.5;margin-bottom:24px;
+}
+
+/* ── CARDS ── */
+.card{background:var(--bg2);border-radius:var(--r);padding:16px}
+.card-white{background:#fff;border-radius:var(--r);padding:16px;border:1px solid var(--ink15)}
+.card-outline{background:transparent;border-radius:var(--r);padding:16px;border:1px solid var(--ink15)}
+
+/* ── INPUTS ── */
+.finput{
+  width:100%;padding:12px 0;font-size:15px;
+  border:none;border-bottom:1px solid var(--ink15);
+  border-radius:0;background:transparent;
+  color:var(--ink);outline:none;
+  transition:border-color 0.2s;
+  font-family:'Instrument Sans',sans-serif;
+}
+.finput:focus{border-color:var(--blue)}
+.finput::placeholder{color:var(--ink40)}
+.finput:disabled{opacity:0.35;cursor:default}
+.finput-box{
+  width:100%;padding:12px 14px;font-size:15px;
+  border:1px solid var(--ink15);border-radius:var(--r-sm);
+  background:var(--bg);color:var(--ink);outline:none;
+  transition:border-color 0.2s;
+  font-family:'Instrument Sans',sans-serif;
+}
+.finput-box:focus{border-color:var(--blue)}
+
+/* ── PILLS ── */
+.pill{font-size:11px;padding:5px 12px;border-radius:20px;border:1px solid var(--ink15);background:var(--bg);color:var(--ink70);cursor:pointer;white-space:nowrap;transition:all 0.2s;font-weight:500}
+.pill.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* ── CHECKBOX ── */
+.chk{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--ink15);background:transparent;flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s}
+.chk.on{background:var(--blue);border-color:var(--blue)}
+
+/* ── BUTTONS ── */
+.btn-p{width:100%;padding:15px;font-size:14px;font-weight:600;border:none;border-radius:60px;background:var(--ink);color:var(--bg);cursor:pointer;letter-spacing:0.01em;transition:opacity 0.15s,transform 0.1s;font-family:'Instrument Sans',sans-serif}
+.btn-p:disabled{opacity:0.25;cursor:default}
+.btn-p:active:not(:disabled){transform:scale(0.98)}
+.btn-s{width:100%;padding:13px;font-size:13px;border:1.5px solid var(--ink15);border-radius:60px;background:transparent;color:var(--ink70);cursor:pointer;font-weight:500;font-family:'Instrument Sans',sans-serif;transition:border-color 0.2s,color 0.2s}
+.btn-s:hover{border-color:var(--blue);color:var(--blue)}
+
+/* ── TAB SWITCHER ── */
+.tsw{display:flex;gap:2px;background:var(--bg2);border-radius:60px;overflow:hidden;margin-bottom:20px;padding:4px}
+.tswb{flex:1;padding:9px 8px;font-size:12px;border:none;border-radius:50px;background:transparent;color:var(--ink40);cursor:pointer;transition:all 0.2s;white-space:nowrap;font-weight:500;font-family:'Instrument Sans',sans-serif}
+.tswb.on{background:var(--ink);color:var(--bg);font-weight:600}
+
+/* ── PROGRESS BAR ── */
+.pbar{height:3px;background:var(--bg3);border-radius:2px;overflow:hidden}
+.pbar-fill{height:100%;transition:width 0.5s;border-radius:2px}
+
+/* ── DIVIDERS ── */
+.div{height:1px;background:var(--ink15);margin:24px 0}
+.lbl{font-size:10px;font-weight:600;color:var(--ink40);text-transform:uppercase;letter-spacing:0.10em;margin-bottom:10px;font-family:'Instrument Sans',sans-serif}
+
+/* ── QUOTE ── */
+.quote-wrap{background:var(--bg2);border-radius:var(--r);padding:22px 20px 18px;position:relative;cursor:pointer;margin-bottom:24px}
+.quote-mark{font-family:'Fraunces',serif;font-size:60px;color:var(--ink15);position:absolute;top:6px;left:16px;line-height:1;user-select:none;font-weight:700}
+.quote-text{font-family:'Instrument Serif',serif;font-style:italic;font-size:15px;color:var(--ink);line-height:1.7;margin-bottom:14px;padding-top:12px;padding-left:2px}
+.quote-line{border-top:1px dotted var(--ink15);margin-bottom:10px}
+.quote-author{font-family:'Instrument Sans',sans-serif;font-size:10px;font-weight:600;color:var(--blue);letter-spacing:0.10em;text-transform:uppercase}
+
+/* ── TRADE CARD ── */
+.trade-item{background:var(--bg2);border-radius:var(--r-sm);padding:13px 14px;display:flex;align-items:center;gap:0;overflow:hidden;position:relative}
+.trade-bar-left{width:3px;align-self:stretch;border-radius:3px;flex-shrink:0;margin-right:12px;min-height:36px}
+
+/* ── MCS STEP NAV ── */
+.step-row{display:flex;gap:4px;margin-bottom:20px}
+.step-btn{flex:1;padding:10px 4px;font-size:9px;font-weight:600;border:1.5px solid var(--ink15);border-radius:10px;background:transparent;color:var(--ink40);cursor:pointer;text-transform:uppercase;letter-spacing:0.05em;transition:all 0.2s;font-family:'Instrument Sans',sans-serif;line-height:1.3}
+.step-btn.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+
+/* ── CHECK ITEM ── */
+.chk-item{display:flex;align-items:flex-start;gap:12px;background:var(--bg2);border-radius:var(--r-sm);padding:14px;cursor:pointer;transition:all 0.15s;margin-bottom:6px;border:1px solid transparent}
+.chk-item.ok{background:var(--win-bg);border-color:var(--win-bord)}
+.chk-item.bad{background:var(--loss-bg);border-color:var(--loss-bord)}
+.chk-lbl{font-size:13px;color:var(--ink70);line-height:1.5;transition:color 0.15s;font-family:'Instrument Sans',sans-serif}
+.chk-lbl.ok{color:var(--win);text-decoration:line-through}
+.chk-lbl.bad{color:var(--loss)}
+
+/* ── RULE CARD ── */
+.rule-card{background:var(--bg2);border-radius:var(--r-sm);border-left:3px solid var(--blue);padding:14px 16px;margin-bottom:8px}
+
+/* ── DECISION ── */
+.decision-box{border-radius:var(--r);padding:36px 24px;text-align:center;margin-bottom:20px}
+.decision-verdict{font-family:'Fraunces',serif;font-style:italic;font-size:56px;font-weight:400;line-height:1;margin-bottom:12px;letter-spacing:-1px}
+.decision-sub{font-family:'Instrument Serif',serif;font-style:italic;font-size:14px;line-height:1.7}
+
+/* ── MCARD ── */
+.mc{background:var(--bg2);border-radius:var(--r-sm);padding:16px}
+.mc-label{font-size:10px;font-weight:600;color:var(--ink40);text-transform:uppercase;letter-spacing:0.09em;margin-bottom:6px;font-family:'Instrument Sans',sans-serif}
+.mc-value{font-family:'Fraunces',serif;font-size:26px;font-weight:600;color:var(--ink);line-height:1.05}
+.mc-sub{font-size:12px;color:var(--ink40);margin-top:3px;font-family:'Instrument Sans',sans-serif;font-style:italic}
+
+/* ── WEEK CARD ── */
+.week-card{background:var(--bg2);border-radius:var(--r);padding:16px;margin-bottom:8px;cursor:pointer;border:1.5px solid transparent;transition:all 0.2s}
+.week-card.active{border-color:var(--blue);background:var(--bg)}
+
+/* FORMULA */
+.formula{background:var(--bg2);border-radius:var(--r-sm);padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ink70);margin-bottom:20px;border:1px dashed var(--ink15)}
+
+/* Threshold row */
+.thresh-row{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--ink15)}
+.thresh-row:last-child{border-bottom:none}
 </style>
 </head>
 <body>
-<h1 class="sr-only">MCS Tracker — Multi-Timeframe Confluent Structure</h1>
+<h1 class="sr-only">Meridian</h1>
 <div id="root"></div>
 <script type="text/babel">
 const {useState,useCallback,useMemo,useRef,useEffect}=React;
-const SK='mcs_v6';
+const SK='mcs_v7';
 
-/* ── QUOTES ── */
 const QUOTES=[
   {q:"El mercado es el maestro más caro del mundo. Aprende barato o él te cobrará caro.",a:"Jesse Livermore"},
   {q:"No operes para ganar dinero. Opera para ejecutar bien. El dinero es consecuencia.",a:"Mark Douglas"},
@@ -107,22 +217,16 @@ const QUOTES=[
   {q:"30 trades para evaluar el edge. La impaciencia destruye sistemas rentables.",a:"MCS v1.0"},
   {q:"El riesgo viene de no saber lo que estás haciendo.",a:"Warren Buffett"},
   {q:"Los grandes traders no predicen. Reaccionan.",a:"Anónimo"},
-  {q:"Actúa como si lo que haces hace la diferencia. La hace.",a:"William James"},
-  {q:"La fortaleza no viene de ganar. Viene de la lucha. Cuando decides no rendirte, eso es fortaleza.",a:"Arnold Schwarzenegger"},
   {q:"Si no controlas el drawdown, el drawdown te controla a ti.",a:"Anónimo"},
   {q:"Una pérdida dentro del proceso es aceptable. Una pérdida fuera del proceso es cara.",a:"MCS v1.0"},
-  {q:"Racha perdedora no rompe el sistema. Solo lo pone a prueba.",a:"MCS v1.0"},
   {q:"El mercado recompensa la paciencia y castiga la impaciencia.",a:"Warren Buffett"},
-  {q:"Lo que sabes hoy no es suficiente para mañana.",a:"Albert Einstein"},
-  {q:"No importa cuántas veces caes. Lo que importa es cuántas veces te levantas.",a:"Vince Lombardi"},
 ];
 
-/* ── DATA ── */
 const WEEKS=[
   {n:1,mes:1,focus:'Un solo setup',task:'Elige 1 setup MCS. Define reglas de entrada, SL y TP por escrito.',checks:['Setup elegido y nombrado','Reglas de entrada documentadas','SL y TP definidos por escrito']},
   {n:2,mes:1,focus:'Backtesting × 25',task:'25 trades históricos. Solo el setup MCS elegido.',checks:['25 trades completados','Resultados registrados','Screenshot de cada trade']},
   {n:3,mes:1,focus:'Backtesting × 50',task:'25 trades más. Calcular win rate y RR promedio.',checks:['50 trades totales','Win rate calculado','RR promedio calculado']},
-  {n:4,mes:1,focus:'Revisión de mes 1',task:'Analizar los 50 trades. ¿Expectativa positiva? ¿Mejor sesión?',checks:['Análisis completado','Expectativa calculada','Sesión óptima identificada']},
+  {n:4,mes:1,focus:'Revisión mes 1',task:'Analizar los 50 trades. ¿Expectativa positiva? ¿Mejor sesión?',checks:['Análisis completado','Expectativa calculada','Sesión óptima identificada']},
   {n:5,mes:2,focus:'Paper trading live',task:'Ejecutar el setup en demo. Ventana principal 7:00–7:45.',checks:['Cuenta demo activa','Trades ejecutados','Journal iniciado']},
   {n:6,mes:2,focus:'Journaling estricto',task:'Cada trade: screenshot + razón + emoción + capas MCS.',checks:['100% trades documentados','Emoción registrada','Capas MCS verificadas']},
   {n:7,mes:2,focus:'Ajuste de reglas',task:'Refinar el setup según lo observado. No cambiar completo — ajustar filtros.',checks:['Filtros ajustados','Setup refinado','Reglas actualizadas']},
@@ -134,38 +238,27 @@ const MARKETS={
   FUTURES:{label:'Futuros',pairs:['NQ','MNQ','ES','MES'],unit:'puntos',sessions:['Asia','London','AM Session','LO Close','PM Session']},
   CRYPTO:{label:'Crypto',pairs:['BTC/USD','ETH/USD','SOL/USD'],unit:'precio directo',sessions:['Asia','London','NY (7–10 AM)','LO Close (10–12 PM)']},
 };
-
 const ZONE_TYPES=['OB','FVG','Confluencia OB+FVG','Nivel estructural','BSL sweep','SSL sweep'];
 const SESGO_TYPES=['Alcista','Bajista','Rango'];
 
-const DS={
-  activeTab:'inicio',weekProgress:{},trades:[],
-  capital:5000,riskVal:0.5,riskOp:1.0,
-  wr:45,rr:2.0,activeWeek:1,
-  checklist:{},checklistDate:'',quoteIdx:0,
-};
-
+const DS={activeTab:'inicio',weekProgress:{},trades:[],capital:5000,riskVal:0.5,riskOp:1.0,wr:45,rr:2.0,activeWeek:1,checklist:{},checklistDate:'',quoteIdx:0};
 function load(){try{const r=localStorage.getItem(SK);if(r)return{...DS,...JSON.parse(r)}}catch(e){}return DS}
 function save(s){try{localStorage.setItem(SK,JSON.stringify(s))}catch(e){}}
 
-/* colors */
-const AC='#8b5cf6',AC2='#6d28d9',ACBG='rgba(139,92,246,0.1)',ACBORD='rgba(139,92,246,0.25)';
-const WIN='#10b981',WINBG='rgba(16,185,129,0.1)',WINBORD='rgba(16,185,129,0.25)';
-const LOSS='#ef4444',LOSSBG='rgba(239,68,68,0.1)';
-const BE='#f59e0b',BEBG='rgba(245,158,11,0.1)';
+/* COLORS */
+const BLK='#1e1a14',INK70='#5a5448',INK40='#9c9485',INK15='#ccc6b8',BG='#ede8da',BG2='#e4dece',BG3='#d9d2c0';
+const BLUE='#1e3d5c',BLUE2='rgba(30,61,92,0.07)',BLUEB='rgba(30,61,92,0.15)';
+const WIN='#2d6a4f',WINBG='rgba(45,106,79,0.08)',WINB='rgba(45,106,79,0.2)';
+const LOSS='#8b3020',LOSSBG='rgba(139,48,32,0.07)',LOSSB='rgba(139,48,32,0.18)';
+const BE='#7a5c10',BEBG='rgba(122,92,16,0.07)',BEB='rgba(122,92,16,0.18)';
 const rC=r=>r==='W'?WIN:r==='L'?LOSS:BE;
 const rBg=r=>r==='W'?WINBG:r==='L'?LOSSBG:BEBG;
 const rLbl=r=>r==='W'?'Win':r==='L'?'Loss':'BE';
 
-function calcRR(e,sl,x){
-  const ev=parseFloat(e),sv=parseFloat(sl),xv=parseFloat(x);
-  if(isNaN(ev)||isNaN(sv)||isNaN(xv)||sv===ev)return null;
-  return parseFloat((Math.abs(xv-ev)/Math.abs(ev-sv)).toFixed(2));
-}
+function calcRR(e,sl,x){const ev=parseFloat(e),sv=parseFloat(sl),xv=parseFloat(x);if(isNaN(ev)||isNaN(sv)||isNaN(xv)||sv===ev)return null;return parseFloat((Math.abs(xv-ev)/Math.abs(ev-sv)).toFixed(2));}
 function calcM(trades){
   if(!trades.length)return{wr:0,rrAvg:0,exp:0,adh:0,wins:0,losses:0,total:0};
-  const wins=trades.filter(t=>t.resultado==='W');
-  const losses=trades.filter(t=>t.resultado==='L');
+  const wins=trades.filter(t=>t.resultado==='W'),losses=trades.filter(t=>t.resultado==='L');
   const wr=wins.length/trades.length;
   const avgWR=wins.length?wins.reduce((a,t)=>a+(parseFloat(t.rr)||0),0)/wins.length:0;
   const exp=(wr*avgWR)-(1-wr);
@@ -177,73 +270,108 @@ function calcEq(trades,cap,rp){
   if(!trades.length)return[];
   const sorted=[...trades].sort((a,b)=>a.fecha<b.fecha?-1:1);
   let c=cap;const pts=[{x:'Inicio',y:c,t:null}];
-  sorted.forEach((t,i)=>{
-    const risk=c*(rp/100);
-    const delta=t.resultado==='W'?(risk*(parseFloat(t.rr)||0)):t.resultado==='L'?-risk:0;
-    c=parseFloat((c+delta).toFixed(2));pts.push({x:t.fecha||`T${i+1}`,y:c,t});
-  });
+  sorted.forEach((t,i)=>{const risk=c*(rp/100);const delta=t.resultado==='W'?(risk*(parseFloat(t.rr)||0)):t.resultado==='L'?-risk:0;c=parseFloat((c+delta).toFixed(2));pts.push({x:t.fecha||`T${i+1}`,y:c,t});});
   return pts;
 }
 function calcDD(pts){let p=pts[0]?.y||0,m=0;pts.forEach(pt=>{if(pt.y>p)p=pt.y;const d=(p-pt.y)/p*100;if(d>m)m=d;});return parseFloat(m.toFixed(2));}
-function calcStrk(trades){
-  const s=[...trades].sort((a,b)=>a.fecha<b.fecha?-1:1);
-  let mW=0,mL=0,cW=0,cL=0;
-  s.forEach(t=>{if(t.resultado==='W'){cW++;cL=0;if(cW>mW)mW=cW;}else if(t.resultado==='L'){cL++;cW=0;if(cL>mL)mL=cL;}else{cW=0;cL=0;}});
-  return{win:mW,loss:mL};
-}
-function bestSes(trades){
-  if(!trades.length)return'—';
-  const m={};
-  trades.forEach(t=>{if(!m[t.sesion])m[t.sesion]={w:0,tot:0};m[t.sesion].tot++;if(t.resultado==='W')m[t.sesion].w++;});
-  let best='—',br=-1;
-  Object.entries(m).forEach(([s,v])=>{const r=v.w/v.tot;if(r>br&&v.tot>=2){br=r;best=s;}});
-  return best;
-}
+function calcStrk(trades){const s=[...trades].sort((a,b)=>a.fecha<b.fecha?-1:1);let mW=0,mL=0,cW=0,cL=0;s.forEach(t=>{if(t.resultado==='W'){cW++;cL=0;if(cW>mW)mW=cW;}else if(t.resultado==='L'){cL++;cW=0;if(cL>mL)mL=cL;}else{cW=0;cL=0;}});return{win:mW,loss:mL};}
+function bestSes(trades){if(!trades.length)return'—';const m={};trades.forEach(t=>{if(!m[t.sesion])m[t.sesion]={w:0,tot:0};m[t.sesion].tot++;if(t.resultado==='W')m[t.sesion].w++;});let best='—',br=-1;Object.entries(m).forEach(([s,v])=>{const r=v.w/v.tot;if(r>br&&v.tot>=2){br=r;best=s;}});return best;}
 
 /* ── PRIMITIVOS ── */
-function Lbl({children,mb=12}){return<div className="lbl" style={{marginBottom:mb}}>{children}</div>}
 function Div(){return<div className="div"/>}
-function Pill({label,active,onClick,color}){
-  return<button className={`pill${active?' on':''}`} onClick={onClick} style={active&&color?{background:color,borderColor:color}:{}}>{label}</button>;
+function Chk({checked,onChange,danger}){
+  const bg=checked?(danger?LOSS:BLUE):BG;
+  const bord=checked?(danger?LOSS:BLUE):INK15;
+  return<div style={{width:20,height:20,borderRadius:6,border:`1.5px solid ${bord}`,background:bg,flexShrink:0,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',transition:'all 0.2s'}} onClick={onChange}>
+    {checked&&<svg width="11" height="9" viewBox="0 0 11 9"><polyline points="1,4.5 4.5,8 10,1" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+  </div>;
 }
-function Chk({checked,onChange}){
-  return<div className={`chk${checked?' on':''}`} onClick={onChange}>{checked&&<svg width="11" height="9" viewBox="0 0 11 9"><polyline points="1,4.5 4.5,8 10,1" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>}</div>;
-}
-function FRow({label,children,hint}){
-  return<div style={{marginBottom:14}}>
+function Pill({label,active,onClick}){return<button className={`pill${active?' on':''}`} onClick={onClick}>{label}</button>;}
+
+function FRow({label,children,hint,mb=14}){
+  return<div style={{marginBottom:mb}}>
     <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:6}}>
-      <div style={{fontSize:11,color:'#555577',textTransform:'uppercase',letterSpacing:'0.06em',fontWeight:600}}>{label}</div>
-      {hint&&<div style={{fontSize:11,color:AC,fontWeight:600,fontFamily:'JetBrains Mono'}}>{hint}</div>}
+      <div style={{fontSize:10,color:INK40,textTransform:'uppercase',letterSpacing:'0.09em',fontWeight:600}}>{label}</div>
+      {hint&&<div style={{fontSize:11,color:BLUE,fontWeight:600,fontFamily:"'JetBrains Mono',monospace"}}>{hint}</div>}
     </div>
     {children}
   </div>;
 }
+
+/* Full-width underline input */
 function FInput(p){return<input className="finput" {...p}/>;}
-function FSelect({value,onChange,children}){return<select className="finput" value={value} onChange={onChange}>{children}</select>;}
-function MCard({label,value,sub,accent,danger}){
-  const bg=accent?ACBG:danger?LOSSBG:'#0f0f1a';
-  const bord=accent?ACBORD:danger?'rgba(239,68,68,0.25)':'#1a1a2e';
-  const vc=accent?AC:danger?LOSS:'#f0f0f0';
-  return<div style={{background:bg,border:`1px solid ${bord}`,padding:'14px',borderRadius:0}}>
-    <div style={{fontSize:11,color:accent?AC:danger?LOSS:'#3a3a5c',textTransform:'uppercase',letterSpacing:'0.06em',fontWeight:600,marginBottom:6}}>{label}</div>
-    <div style={{fontSize:20,fontWeight:700,color:vc,fontFamily:'JetBrains Mono'}}>{value}</div>
-    {sub&&<div style={{fontSize:11,color:accent?AC:danger?LOSS:'#3a3a5c',marginTop:3}}>{sub}</div>}
-  </div>;
-}
+function FSelect({value,onChange,children}){return<select className="finput-box" value={value} onChange={onChange}>{children}</select>;}
+
 function NumInput({label,value,onChange,min,max,step=1,unit,hint}){
   const[loc,setLoc]=useState(String(value));
   useEffect(()=>setLoc(String(value)),[value]);
   const commit=v=>{const n=parseFloat(v);if(!isNaN(n)&&n>=min&&n<=max)onChange(step<1?parseFloat(n.toFixed(2)):n);};
   return<FRow label={label} hint={hint}>
     <div style={{display:'flex',alignItems:'center',gap:8}}>
-      <FInput type="number" value={loc} min={min} max={max} step={step}
+      <input className="finput" type="number" value={loc} min={min} max={max} step={step}
         onChange={e=>setLoc(e.target.value)}
         onBlur={e=>commit(e.target.value)}
         onKeyDown={e=>e.key==='Enter'&&commit(e.target.value)}
+        style={{fontSize:16}}
       />
-      {unit&&<span style={{fontSize:12,color:'#3a3a5c',whiteSpace:'nowrap',fontFamily:'JetBrains Mono'}}>{unit}</span>}
+      {unit&&<span style={{fontSize:12,color:INK40,whiteSpace:'nowrap',fontFamily:"'JetBrains Mono',monospace"}}>{unit}</span>}
     </div>
   </FRow>;
+}
+
+function MCard({label,value,sub,accent,danger}){
+  const bg=accent?BLUE2:danger?LOSSBG:BG2;
+  const bord=accent?BLUEB:danger?LOSSB:INK15;
+  const vc=accent?BLUE:danger?LOSS:BLK;
+  const lc=accent?BLUE:danger?LOSS:INK40;
+  return<div style={{background:bg,border:`1px solid ${bord}`,padding:'16px',borderRadius:10}}>
+    <div style={{fontSize:10,color:lc,textTransform:'uppercase',letterSpacing:'0.09em',fontWeight:600,marginBottom:6}}>{label}</div>
+    <div style={{fontSize:26,fontWeight:600,color:vc,fontFamily:"'Fraunces',serif",lineHeight:1.05}}>{value}</div>
+    {sub&&<div style={{fontSize:11,color:lc,marginTop:3,fontStyle:'italic'}}>{sub}</div>}
+  </div>;
+}
+
+/* ── MERIDIAN LOGO ── */
+function MeridianLogo({size='lg'}){
+  const big=size==='lg';
+  /* Compass rose SVG as logo mark */
+  return(
+    <div style={{display:'flex',alignItems:'center',gap:big?10:7,marginBottom:big?2:0}}>
+      {/* Logo mark: stylized M with compass needle */}
+      <svg width={big?44:32} height={big?44:32} viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Outer thin circle */}
+        <circle cx="22" cy="22" r="20" stroke={BLUE} strokeWidth="1" opacity="0.25"/>
+        {/* Compass rose — 4 thin arms */}
+        <line x1="22" y1="4" x2="22" y2="40" stroke={BLUE} strokeWidth="0.8" opacity="0.18"/>
+        <line x1="4" y1="22" x2="40" y2="22" stroke={BLUE} strokeWidth="0.8" opacity="0.18"/>
+        {/* North needle — ink filled diamond */}
+        <polygon points="22,6 24.2,20 22,22 19.8,20" fill={BLK}/>
+        {/* South needle — lighter */}
+        <polygon points="22,38 24.2,24 22,22 19.8,24" fill={BLK} opacity="0.25"/>
+        {/* East/West small diamonds */}
+        <polygon points="38,22 24,19.8 22,22 24,24.2" fill={BLK} opacity="0.18"/>
+        <polygon points="6,22 20,19.8 22,22 20,24.2" fill={BLK} opacity="0.18"/>
+        {/* Center dot */}
+        <circle cx="22" cy="22" r="2.5" fill={BLUE}/>
+        {/* Small tick marks */}
+        <line x1="22" y1="3" x2="22" y2="6" stroke={BLUE} strokeWidth="1.5" opacity="0.4"/>
+        <line x1="22" y1="38" x2="22" y2="41" stroke={BLUE} strokeWidth="1" opacity="0.2"/>
+      </svg>
+      <div>
+        <div style={{
+          fontFamily:"'Fraunces',serif",
+          fontWeight:700,
+          fontSize:big?30:20,
+          color:BLK,
+          lineHeight:1,
+          letterSpacing:big?'-0.5px':'0px',
+        }}>
+          <span>Meridian</span>
+        </div>
+        {big&&<div style={{fontFamily:"'Instrument Serif',serif",fontStyle:'italic',fontSize:11,color:BLUE,letterSpacing:'0.08em',marginTop:1}}>Multi‑Timeframe Confluent Structure</div>}
+      </div>
+    </div>
+  );
 }
 
 /* ── INICIO ── */
@@ -253,59 +381,66 @@ function InicioTab({state,setState}){
   const m=calcM(trades);
   const today=new Date().toLocaleDateString('es-VE',{weekday:'long',day:'numeric',month:'long'});
   const q=QUOTES[state.quoteIdx%QUOTES.length];
-  const weeksDone=WEEKS.filter(w=>w.checks.every((_,i)=>state.weekProgress[`${w.n}-${i}`])).length;
   return(
-    <div style={{paddingTop:24}}>
+    <div style={{paddingTop:28}}>
+      {/* Logo header */}
       <div style={{marginBottom:28}}>
-        <div style={{fontSize:11,color:'#3a3a5c',textTransform:'capitalize',letterSpacing:'0.06em',marginBottom:6,fontWeight:600}}>{today}</div>
-        <div className="playfair" style={{fontSize:30,fontWeight:700,color:'#f0f0f0',lineHeight:1.15,letterSpacing:'-0.5px'}}>MCS<br/><span style={{color:AC}}>Tracker</span></div>
+        <div style={{fontSize:11,color:INK40,textTransform:'capitalize',letterSpacing:'0.04em',marginBottom:10,fontStyle:'italic'}}>{today}</div>
+        <MeridianLogo size="lg"/>
       </div>
 
-      {/* quote */}
-      <div style={{background:'#0a0a14',border:`1px solid ${ACBORD}`,padding:'20px',marginBottom:24,position:'relative',cursor:'pointer'}} onClick={()=>setState(s=>({...s,quoteIdx:(s.quoteIdx+1)%QUOTES.length}))}>
-        <div className="playfair" style={{fontSize:36,color:ACBG,position:'absolute',top:8,left:14,lineHeight:1,userSelect:'none'}}>"</div>
-        <div style={{fontSize:14,color:'#aaa8c8',lineHeight:1.75,marginBottom:14,paddingTop:10,fontStyle:'italic'}}>{q.q}</div>
+      {/* Quote */}
+      <div className="quote-wrap" onClick={()=>setState(s=>({...s,quoteIdx:(s.quoteIdx+1)%QUOTES.length}))}>
+        <div className="quote-mark">"</div>
+        <div className="quote-text">{q.q}</div>
+        <div className="quote-line"/>
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-          <div style={{fontSize:11,color:AC,fontWeight:600,letterSpacing:'0.04em'}}>— {q.a}</div>
-          <div style={{fontSize:10,color:'#2a2a4a',letterSpacing:'0.06em',textTransform:'uppercase'}}>tap</div>
+          <div className="quote-author">— {q.a}</div>
+          <div style={{fontSize:10,color:INK40,letterSpacing:'0.06em',textTransform:'uppercase'}}>tap</div>
         </div>
       </div>
 
+      {/* Snapshot */}
       {trades.length>0&&(
         <>
-          <Lbl>Snapshot</Lbl>
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:1,marginBottom:24,border:'1px solid #1a1a2e'}}>
+          <div className="lbl">Snapshot</div>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:24}}>
             <MCard label="Trades" value={m.total} sub={`${m.wins}W · ${m.losses}L`}/>
             <MCard label="Win rate" value={`${m.wr}%`} sub="acumulado"/>
             <MCard label="Expectativa" value={m.exp} sub={m.exp>0?'con edge':'sin edge'} accent={m.exp>0} danger={m.exp<0}/>
-            <MCard label="Semanas" value={`${weeksDone}/8`} sub="completadas" accent={weeksDone===8}/>
           </div>
         </>
       )}
 
+      {/* Últimos trades */}
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:12}}>
-        <Lbl mb={0}>Últimos trades</Lbl>
-        {trades.length>0&&<button onClick={()=>setState(s=>({...s,activeTab:'trades'}))} style={{fontSize:11,color:AC,background:'none',border:'none',cursor:'pointer',letterSpacing:'0.06em',textTransform:'uppercase',fontWeight:600}}>Ver todos →</button>}
+        <div className="lbl" style={{marginBottom:0}}>Últimos trades</div>
+        {trades.length>0&&<button onClick={()=>setState(s=>({...s,activeTab:'trades'}))} style={{fontSize:11,color:BLUE,background:'none',border:'none',cursor:'pointer',letterSpacing:'0.05em',textTransform:'uppercase',fontWeight:600}}>Ver todos →</button>}
       </div>
 
       {last5.length===0&&(
-        <div style={{background:'#0a0a14',border:'1px solid #1a1a2e',padding:'32px 16px',textAlign:'center'}}>
-          <div style={{fontSize:14,color:'#2a2a4a',lineHeight:2,marginBottom:16}}>Sin trades registrados.</div>
-          <button onClick={()=>setState(s=>({...s,activeTab:'trades'}))} className="btn-p" style={{width:'auto',padding:'10px 24px'}}>Ir a Trades →</button>
+        <div className="card" style={{textAlign:'center',padding:'36px 20px'}}>
+          <div style={{fontFamily:"'Instrument Serif',serif",fontStyle:'italic',fontSize:15,color:INK70,lineHeight:1.8,marginBottom:20}}>
+            Tu cuaderno está vacío.<br/>El primer trade siempre es el más importante.
+          </div>
+          <button onClick={()=>setState(s=>({...s,activeTab:'trades'}))} className="btn-p" style={{width:'auto',padding:'12px 28px'}}>Registrar un trade</button>
         </div>
       )}
 
-      <div style={{display:'flex',flexDirection:'column',gap:1}}>
+      <div style={{display:'flex',flexDirection:'column',gap:6}}>
         {last5.map(t=>(
-          <div key={t.id} style={{background:'#0f0f1a',borderLeft:`3px solid ${rC(t.resultado)}`,padding:'12px 14px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-            <div style={{display:'flex',alignItems:'center',gap:10}}>
-              <span style={{fontSize:11,fontWeight:600,color:rC(t.resultado),background:rBg(t.resultado),padding:'3px 10px',borderRadius:20,letterSpacing:'0.04em'}}>{rLbl(t.resultado)}</span>
-              <div>
-                <div style={{fontSize:13,fontWeight:500,color:'#ccc'}}>{t.mercado||'FX'} · {t.par} · {t.dir==='L'?'Long':'Short'}</div>
-                <div style={{fontSize:11,color:'#3a3a5c',fontFamily:'JetBrains Mono'}}>{t.fecha} · {t.sesion}</div>
+          <div key={t.id} className="trade-item">
+            <div className="trade-bar-left" style={{background:rC(t.resultado)}}/>
+            <div style={{flex:1}}>
+              <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:3}}>
+                <div style={{display:'flex',alignItems:'center',gap:8}}>
+                  <span style={{fontSize:11,fontWeight:600,color:rC(t.resultado),background:rBg(t.resultado),padding:'2px 9px',borderRadius:20}}>{rLbl(t.resultado)}</span>
+                  <span style={{fontSize:13,fontWeight:500,color:BLK}}>{t.mercado||'FX'} · {t.par} · {t.dir==='L'?'Long':'Short'}</span>
+                </div>
+                <div style={{fontSize:18,fontWeight:600,color:rC(t.resultado),fontFamily:"'Fraunces',serif"}}>{t.rr}R</div>
               </div>
+              <div style={{fontSize:11,color:INK40,fontFamily:"'JetBrains Mono',monospace"}}>{t.fecha} · {t.sesion}</div>
             </div>
-            <div style={{fontSize:15,fontWeight:700,color:rC(t.resultado),fontFamily:'JetBrains Mono'}}>{t.rr}R</div>
           </div>
         ))}
       </div>
@@ -313,68 +448,142 @@ function InicioTab({state,setState}){
   );
 }
 
-/* ── SEMANAS ── */
-function SemanasTab({state,setState}){
-  const{weekProgress,activeWeek}=state;
-  const tog=(wn,i)=>setState(s=>({...s,weekProgress:{...s.weekProgress,[`${wn}-${i}`]:!s.weekProgress[`${wn}-${i}`]}}));
-  const isDone=w=>w.checks.every((_,i)=>weekProgress[`${w.n}-${i}`]);
-  const cw=WEEKS.find(w=>w.n===activeWeek)||WEEKS[0];
-  const done=WEEKS.filter(isDone).length;
-  const pct=Math.round(done/8*100);
+/* ── MCS ── */
+function MCSTab({state,setState}){
+  const[step,setStep]=useState(0);
+  const today=new Date().toISOString().slice(0,10);
+  const isToday=state.checklistDate===today;
+  const checks=isToday?(state.checklist||{}):{};
+  const tog=(key)=>{const nc={...checks,[key]:!checks[key]};setState(s=>({...s,checklist:nc,checklistDate:today}));};
+
+  const CAPA1=[{k:'c1_1',label:'Estructura Daily clara: HH/HL (alcista) o LH/LL (bajista)'},{k:'c1_2',label:'BOS reciente que confirme dirección'},{k:'c1_3',label:'BSL y SSL visibles mapeados'},{k:'c1_4',label:'OB diario sin testear activo'},{k:'c1_5',label:'FVG de Daily como imán de precio'}];
+  const CAPA2=[{k:'c2_1',label:'4H alineado con sesgo Daily'},{k:'c2_2',label:'OB o FVG activo en 4H en dirección del sesgo'},{k:'c2_3',label:'Sweep de liquidez reciente en 4H'},{k:'c2_4',label:'Zona exacta refinada en 1H'},{k:'c2_5',label:'CHoCH/BOS en 1H apoyando dirección'},{k:'c2_6',label:'Zona válida: 2 de 3 — OB + FVG + nivel estructural'}];
+  const CAPA3=[{k:'c3_1',label:'Precio toca o sweepea ligeramente la zona'},{k:'c3_2',label:'CHoCH en micro confirma cambio de dirección'},{k:'c3_3',label:'Vela de rechazo con cuerpo real (no solo mecha)'},{k:'c3_4',label:'Entrada al cierre de vela o primer retroceso'}];
+  const NOOPERAR=[{k:'no_1',label:'Daily sin estructura clara'},{k:'no_2',label:'Precio llegó con impulso que perforó OB'},{k:'no_3',label:'No hay CHoCH en micro — solo toque'},{k:'no_4',label:'Noticia alto impacto en próxima hora'},{k:'no_5',label:'Ya perdiste 2 trades o 2% hoy'},{k:'no_6',label:'Llevas 2 trades ejecutados hoy'}];
+
+  const c1done=CAPA1.filter(c=>checks[c.k]).length;
+  const c2done=CAPA2.filter(c=>checks[c.k]).length;
+  const c3done=CAPA3.filter(c=>checks[c.k]).length;
+  const noOperar=NOOPERAR.some(c=>checks[c.k]);
+  const canTrade=c1done>=4&&c2done>=4&&c3done===4&&!noOperar;
+
+  const steps=[{label:'Capa 1',sub:'Daily'},{label:'Capa 2',sub:'4H·1H'},{label:'Capa 3',sub:'Micro'},{label:'No operar'},{label:'Decisión'}];
+
+  function CG({items,danger}){return(
+    <div>{items.map(({k,label})=>{const ch=!!checks[k];return(
+      <div key={k} onClick={()=>tog(k)} className={`chk-item${ch?(danger?' bad':' ok'):''}`}>
+        <Chk checked={ch} onChange={()=>tog(k)} danger={danger}/>
+        <span className={`chk-lbl${ch?(danger?' bad':' ok'):''}`}>{label}</span>
+      </div>
+    );})}
+    </div>
+  );}
+
   return(
-    <div style={{paddingTop:24}}>
-      <div style={{marginBottom:24}}>
-        <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-end',marginBottom:10}}>
-          <div>
-            <div className="lbl" style={{marginBottom:4}}>Progreso del plan</div>
-            <div className="playfair" style={{fontSize:36,fontWeight:700,color:'#f0f0f0',letterSpacing:'-0.5px'}}>{pct}<span style={{fontSize:20,color:'#2a2a4a',fontWeight:400,fontFamily:'Inter'}}>%</span></div>
-          </div>
-          <div style={{textAlign:'right'}}>
-            <div style={{fontSize:24,fontWeight:700,color:AC,fontFamily:'JetBrains Mono'}}>{done}<span style={{fontSize:14,color:'#3a3a5c',fontWeight:400}}>/8</span></div>
-            <div style={{fontSize:10,color:'#3a3a5c',textTransform:'uppercase',letterSpacing:'0.08em'}}>semanas</div>
-          </div>
-        </div>
-        <div className="pbar"><div className="pbar-fill" style={{width:`${pct}%`}}/></div>
-      </div>
+    <div style={{paddingTop:28}}>
+      <div className="eyebrow">Pre-trade · 5 pasos</div>
+      <div className="page-title">Checklist</div>
+      <div className="page-sub">No operes hasta no completarlo. Tu mejor filtro.</div>
 
-      <Lbl>Semana activa</Lbl>
-      <div style={{display:'flex',gap:4,marginBottom:20,overflowX:'auto',paddingBottom:4}}>
-        {WEEKS.map(w=>{const d=isDone(w),active=w.n===activeWeek;return(
-          <button key={w.n} onClick={()=>setState(s=>({...s,activeWeek:w.n}))} style={{minWidth:40,height:40,flexShrink:0,fontSize:13,fontWeight:600,border:`1px solid ${active?AC:d?ACBORD:'#1a1a2e'}`,background:d?ACBG:active?'#1a1a2e':'#0c0c1a',color:d?AC:active?'#f0f0f0':'#3a3a5c',fontFamily:'JetBrains Mono'}}>{w.n}</button>
-        )})}
-      </div>
-
-      <div className="card" style={{marginBottom:20}}>
-        <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',marginBottom:12}}>
-          <div>
-            <div style={{fontSize:10,color:'#3a3a5c',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:6}}>Semana {cw.n} · Mes {cw.mes}</div>
-            <div className="playfair" style={{fontSize:20,fontWeight:700,color:'#f0f0f0'}}>{cw.focus}</div>
-          </div>
-          {isDone(cw)&&<span style={{fontSize:10,padding:'4px 10px',borderRadius:20,background:ACBG,color:AC,fontWeight:700,whiteSpace:'nowrap',marginLeft:8,letterSpacing:'0.06em',textTransform:'uppercase'}}>Lista</span>}
-        </div>
-        <div style={{fontSize:14,color:'#555577',marginBottom:16,lineHeight:1.65}}>{cw.task}</div>
-        <div style={{display:'flex',flexDirection:'column',gap:12}}>
-          {cw.checks.map((c,i)=>{const checked=!!weekProgress[`${cw.n}-${i}`];return(
-            <div key={i} style={{display:'flex',alignItems:'center',gap:12}} onClick={()=>tog(cw.n,i)}>
-              <Chk checked={checked} onChange={()=>tog(cw.n,i)}/>
-              <span style={{fontSize:14,color:checked?'#3a3a5c':'#ccc',textDecoration:checked?'line-through':'none',cursor:'pointer'}}>{c}</span>
-            </div>
-          )})}
-        </div>
-      </div>
-
-      <Lbl>Resumen de semanas</Lbl>
-      <div style={{display:'flex',flexDirection:'column',gap:1}}>
-        {WEEKS.map((w,i)=>(
-          <div key={w.n} onClick={()=>setState(s=>({...s,activeWeek:w.n,activeTab:'semanas'}))} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'12px 14px',background:'#0f0f1a',border:`1px solid ${isDone(w)?ACBORD:'#1a1a2e'}`,cursor:'pointer',borderLeft:`3px solid ${isDone(w)?AC:'#1a1a2e'}`}}>
-            <div style={{display:'flex',alignItems:'center',gap:12}}>
-              <span style={{fontSize:11,color:isDone(w)?AC:'#3a3a5c',fontFamily:'JetBrains Mono',fontWeight:600,minWidth:20}}>S{w.n}</span>
-              <span style={{fontSize:13,color:isDone(w)?'#555577':'#ccc',textDecoration:isDone(w)?'line-through':'none'}}>{w.focus}</span>
-            </div>
-            {isDone(w)&&<svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill={AC}/><polyline points="4,8 6.5,11 12,5" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round"/></svg>}
-          </div>
+      {/* Step nav */}
+      <div className="step-row">
+        {steps.map((s,i)=>(
+          <button key={i} onClick={()=>setStep(i)} className={`step-btn${step===i?' on':''}`}>
+            <div>{i+1}</div>
+            <div style={{fontSize:8,marginTop:1,opacity:0.75}}>{s.sub||s.label.split(' ')[0]}</div>
+          </button>
         ))}
       </div>
+
+      {step===0&&(
+        <>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',marginBottom:6}}>
+            <div style={{fontFamily:"'Fraunces',serif",fontSize:22,fontWeight:600,color:BLK}}>Capa 1 — Sesgo Daily</div>
+            <span style={{fontFamily:"'Fraunces',serif",fontSize:20,fontWeight:600,color:c1done>=4?WIN:INK40}}>{c1done} / 5</span>
+          </div>
+          <div style={{fontFamily:"'Instrument Serif',serif",fontStyle:'italic',fontSize:14,color:INK70,marginBottom:16,lineHeight:1.6}}>Una vez al día. Establece la dirección macro antes de cualquier otra cosa.</div>
+          <CG items={CAPA1}/>
+          {c1done<4&&<div style={{fontSize:12,color:LOSS,background:LOSSBG,padding:'10px 14px',marginTop:14,borderRadius:10,border:`1px solid ${LOSSB}`}}>Mínimo 4 de 5 condiciones para continuar.</div>}
+          {c1done>=4&&<div style={{fontSize:12,color:WIN,background:WINBG,padding:'10px 14px',marginTop:14,borderRadius:10,border:`1px solid ${WINB}`}}>✓ Sesgo diario confirmado — ir a Capa 2.</div>}
+          <button onClick={()=>setStep(1)} className="btn-p" style={{marginTop:16}}>Siguiente → 4H · 1H</button>
+        </>
+      )}
+      {step===1&&(
+        <>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',marginBottom:6}}>
+            <div style={{fontFamily:"'Fraunces',serif",fontSize:22,fontWeight:600,color:BLK}}>Capa 2 — Contexto 4H+1H</div>
+            <span style={{fontFamily:"'Fraunces',serif",fontSize:20,fontWeight:600,color:c2done>=4?WIN:INK40}}>{c2done} / 6</span>
+          </div>
+          <div style={{fontFamily:"'Instrument Serif',serif",fontStyle:'italic',fontSize:14,color:INK70,marginBottom:16,lineHeight:1.6}}>Confirma alineación con el sesgo. Zona válida = 2 de 3: OB + FVG + nivel estructural.</div>
+          <CG items={CAPA2}/>
+          {c2done<4&&<div style={{fontSize:12,color:LOSS,background:LOSSBG,padding:'10px 14px',marginTop:14,borderRadius:10,border:`1px solid ${LOSSB}`}}>Mínimo 4 de 6. Si no hay zona, pon alerta y espera.</div>}
+          {c2done>=4&&<div style={{fontSize:12,color:WIN,background:WINBG,padding:'10px 14px',marginTop:14,borderRadius:10,border:`1px solid ${WINB}`}}>✓ Zona operativa identificada — ir a Capa 3.</div>}
+          <button onClick={()=>setStep(2)} className="btn-p" style={{marginTop:16}}>Siguiente → Micro</button>
+        </>
+      )}
+      {step===2&&(
+        <>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',marginBottom:6}}>
+            <div style={{fontFamily:"'Fraunces',serif",fontSize:22,fontWeight:600,color:BLK}}>Capa 3 — Confirmación Micro</div>
+            <span style={{fontFamily:"'Fraunces',serif",fontSize:20,fontWeight:600,color:c3done===4?WIN:INK40}}>{c3done} / 4</span>
+          </div>
+          <div style={{fontFamily:"'Instrument Serif',serif",fontStyle:'italic',fontSize:14,color:INK70,marginBottom:16,lineHeight:1.6}}>15M en FX · 1M en NQ. Todas las condiciones son obligatorias.</div>
+          <CG items={CAPA3}/>
+          {c3done<4&&<div style={{fontSize:12,color:LOSS,background:LOSSBG,padding:'10px 14px',marginTop:14,borderRadius:10,border:`1px solid ${LOSSB}`}}>Las 4 condiciones son obligatorias. Si falta una, espera.</div>}
+          {c3done===4&&<div style={{fontSize:12,color:WIN,background:WINBG,padding:'10px 14px',marginTop:14,borderRadius:10,border:`1px solid ${WINB}`}}>✓ Confirmación completa — verificar condiciones de no operar.</div>}
+          <button onClick={()=>setStep(3)} className="btn-p" style={{marginTop:16}}>Siguiente → No operar si...</button>
+        </>
+      )}
+      {step===3&&(
+        <>
+          <div style={{fontFamily:"'Fraunces',serif",fontSize:22,fontWeight:600,marginBottom:6,color:LOSS}}>No operar si...</div>
+          <div style={{fontFamily:"'Instrument Serif',serif",fontStyle:'italic',fontSize:14,color:INK70,marginBottom:16,lineHeight:1.6}}>Si cualquiera de estas aplica, no ejecutes. Sin excepciones.</div>
+          <CG items={NOOPERAR} danger/>
+          {noOperar&&<div style={{fontSize:13,color:LOSS,background:LOSSBG,padding:'12px 14px',marginTop:14,borderRadius:10,border:`1px solid ${LOSSB}`,fontWeight:600}}>⚠ Condición activa — NO ejecutar. Respeta el proceso.</div>}
+          {!noOperar&&<div style={{fontSize:13,color:WIN,background:WINBG,padding:'12px 14px',marginTop:14,borderRadius:10,border:`1px solid ${WINB}`}}>✓ Sin restricciones activas.</div>}
+          <button onClick={()=>setStep(4)} className="btn-p" style={{marginTop:16}}>Ver decisión final →</button>
+        </>
+      )}
+      {step===4&&(
+        <>
+          <div className="lbl" style={{marginBottom:16}}>Decisión MCS</div>
+          {canTrade?(
+            <div className="decision-box" style={{background:WINBG,border:`1px solid ${WINB}`}}>
+              <div className="decision-verdict" style={{color:WIN}}>Ejecutar</div>
+              <div className="decision-sub" style={{color:WIN}}>Todas las capas confirmadas.<br/>SL estructural. TP1 a 1:1 → 50% cierre → SL a BE.</div>
+            </div>
+          ):(
+            <div className="decision-box" style={{background:LOSSBG,border:`1px solid ${LOSSB}`}}>
+              <div className="decision-verdict" style={{color:LOSS}}>No operar</div>
+              <div className="decision-sub" style={{color:LOSS}}>{noOperar?'Condición de no operar activa.':'Capas incompletas.'}<br/>Pon una alerta y espera el próximo setup.</div>
+            </div>
+          )}
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8,marginBottom:20}}>
+            {[['C1',c1done,'≥4/5'],['C2',c2done,'≥4/6'],['C3',c3done,'4/4']].map(([l,v,t])=>(
+              <div key={l} style={{padding:'14px',background:BG2,textAlign:'center',borderRadius:10}}>
+                <div style={{fontSize:10,color:INK40,textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:4,fontWeight:600}}>{l}</div>
+                <div style={{fontSize:24,fontWeight:600,fontFamily:"'Fraunces',serif",color:(v>=(parseInt(t))||v===4)?WIN:LOSS}}>{v}</div>
+                <div style={{fontSize:9,color:INK40,marginTop:2,fontFamily:"'JetBrains Mono',monospace"}}>{t}</div>
+              </div>
+            ))}
+          </div>
+          <button onClick={()=>{setState(s=>({...s,checklist:{},checklistDate:''}));setStep(0);}} className="btn-s">Resetear checklist</button>
+        </>
+      )}
+
+      <Div/>
+      <div className="lbl">Reglas mentales MCS</div>
+      {[
+        {t:'Proceso > resultado',d:'Una pérdida dentro del proceso es aceptable. Una pérdida fuera del proceso es cara.'},
+        {t:'Sin trades = posición correcta',d:'La ausencia de operaciones es una decisión activa, no un fallo.'},
+        {t:'30 trades para evaluar el edge',d:'La impaciencia destruye sistemas rentables. Deja que la estadística hable.'},
+        {t:'Racha perdedora no rompe el sistema',d:'Solo lo pone a prueba. Revisa el proceso, no el resultado individual.'},
+      ].map(({t,d})=>(
+        <div key={t} className="rule-card">
+          <div style={{fontSize:13,fontWeight:600,color:BLUE,marginBottom:4}}>{t}</div>
+          <div style={{fontFamily:"'Instrument Serif',serif",fontStyle:'italic',fontSize:13,color:INK70,lineHeight:1.55}}>{d}</div>
+        </div>
+      ))}
     </div>
   );
 }
@@ -382,20 +591,14 @@ function SemanasTab({state,setState}){
 /* ── TRADES ── */
 function TradesTab({state,setState}){
   const[view,setView]=useState('log');
-  const[mkt,setMkt]=useState('FX');
   const[form,setForm]=useState({fecha:'',dir:'L',resultado:'W',rr:'',entrada:'',sl:'',salida:'',sesion:'',par:'EUR/USD',mercado:'FX',zona:'OB',sesgo:'Alcista',notas:'',adherencia:true});
-  const[filters,setFilters]=useState({resultado:'Todos',sesion:'Todas',semana:'Todas',mercado:'Todos'});
+  const[filters,setFilters]=useState({resultado:'Todos',sesion:'Todas',mercado:'Todos'});
   const[importErr,setImportErr]=useState('');
   const fileRef=useRef(null);
   const trades=state.trades||[];
-
   const autoRR=useMemo(()=>calcRR(form.entrada,form.sl,form.salida),[form.entrada,form.sl,form.salida]);
   const mktData=MARKETS[form.mercado]||MARKETS.FX;
-
-  useEffect(()=>{
-    const m=MARKETS[form.mercado];
-    if(m){setForm(f=>({...f,par:m.pairs[0],sesion:m.sessions[0]}));}
-  },[form.mercado]);
+  useEffect(()=>{const m=MARKETS[form.mercado];if(m)setForm(f=>({...f,par:m.pairs[0],sesion:m.sessions[0]}));},[form.mercado]);
 
   const addTrade=()=>{
     if(!form.fecha)return;
@@ -405,7 +608,6 @@ function TradesTab({state,setState}){
     setForm(f=>({...f,fecha:'',rr:'',entrada:'',sl:'',salida:'',notas:''}));
     setView('log');
   };
-
   const canSave=form.fecha&&(autoRR!==null||form.rr);
   const delTrade=id=>setState(s=>({...s,trades:s.trades.filter(t=>t.id!==id)}));
 
@@ -414,23 +616,16 @@ function TradesTab({state,setState}){
     const reader=new FileReader();
     reader.onload=ev=>{
       try{
-        const lines=ev.target.result.trim().split('\n');
-        const hdrs=lines[0].split(',').map(h=>h.trim());
+        const lines=ev.target.result.trim().split('\n');const hdrs=lines[0].split(',').map(h=>h.trim());
         const miss=['fecha','dir','resultado','rr'].filter(r=>!hdrs.includes(r));
         if(miss.length){setImportErr(`Columnas faltantes: ${miss.join(', ')}`);return;}
-        const imp=lines.slice(1).map((line,i)=>{
-          const vals=line.split(',');const o={};
-          hdrs.forEach((h,j)=>o[h]=vals[j]?.trim()||'');
-          return{id:Date.now()+i,fecha:o.fecha||'',dir:o.dir||'L',resultado:o.resultado||'W',rr:parseFloat(o.rr)||0,sesion:o.sesion||'NY (7–10 AM)',par:o.par||'EUR/USD',mercado:o.mercado||'FX',zona:o.zona||'OB',sesgo:o.sesgo||'Alcista',adherencia:o.adherencia!=='false',notas:o.notas||''};
-        }).filter(t=>t.fecha);
+        const imp=lines.slice(1).map((line,i)=>{const vals=line.split(',');const o={};hdrs.forEach((h,j)=>o[h]=vals[j]?.trim()||'');return{id:Date.now()+i,fecha:o.fecha||'',dir:o.dir||'L',resultado:o.resultado||'W',rr:parseFloat(o.rr)||0,sesion:o.sesion||'NY (7–10 AM)',par:o.par||'EUR/USD',mercado:o.mercado||'FX',zona:o.zona||'OB',sesgo:o.sesgo||'Alcista',adherencia:o.adherencia!=='false',notas:o.notas||''};}).filter(t=>t.fecha);
         if(!imp.length){setImportErr('No se encontraron trades válidos.');return;}
-        setState(s=>({...s,trades:[...imp,...s.trades]}));
-        setView('log');setImportErr('');
+        setState(s=>({...s,trades:[...imp,...s.trades]}));setView('log');setImportErr('');
       }catch(err){setImportErr('Error al leer el archivo.');}
     };
     reader.readAsText(file);e.target.value='';
   };
-
   const exportCSV=()=>{
     const csv=['fecha,dir,resultado,rr,par,mercado,sesion,zona,sesgo,adherencia,notas',...trades.map(t=>`${t.fecha},${t.dir},${t.resultado},${t.rr},${t.par||''},${t.mercado||'FX'},${t.sesion||''},${t.zona||''},${t.sesgo||''},${t.adherencia},${t.notas||''}`)].join('\n');
     const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='mcs_trades.csv';a.click();
@@ -442,42 +637,44 @@ function TradesTab({state,setState}){
     if(filters.mercado!=='Todos'&&t.mercado!==filters.mercado)return false;
     return true;
   }),[trades,filters]);
-
   const m=calcM(filtered);
   const afc=Object.values(filters).filter(v=>v!=='Todos'&&v!=='Todas').length;
-
   const allSessions=[...new Set(Object.values(MARKETS).flatMap(m=>m.sessions))];
 
   return(
-    <div style={{paddingTop:24}}>
+    <div style={{paddingTop:28}}>
+      <div className="eyebrow">{trades.length} entradas</div>
+      <div className="page-title">Trades</div>
+      <div className="page-sub">Tu cuaderno vivo. Cada uno cuenta.</div>
+
       <div className="tsw">
-        {[['log','Log'],['agregar','+ Agregar'],['importar','↑ CSV']].map(([v,l])=>(
+        {[['log','Log'],['agregar','Agregar'],['importar','Importar']].map(([v,l])=>(
           <button key={v} className={`tswb${view===v?' on':''}`} onClick={()=>setView(v)}>{l}</button>
         ))}
       </div>
 
       {view==='agregar'&&(
-        <div className="card" style={{marginBottom:16}}>
-          <div className="playfair" style={{fontSize:20,fontWeight:700,marginBottom:16}}>Nuevo trade</div>
+        <div style={{marginBottom:16}}>
+          <div style={{fontFamily:"'Fraunces',serif",fontSize:22,fontWeight:600,marginBottom:20,color:BLK}}>Nuevo trade</div>
 
           <FRow label="Mercado">
             <div style={{display:'flex',gap:4}}>
               {Object.entries(MARKETS).map(([k,v])=>(
-                <button key={k} onClick={()=>setForm(f=>({...f,mercado:k}))} style={{flex:1,padding:'8px 4px',fontSize:11,fontWeight:600,border:`1px solid ${form.mercado===k?AC:'#1a1a2e'}`,background:form.mercado===k?ACBG:'transparent',color:form.mercado===k?AC:'#3a3a5c',cursor:'pointer',letterSpacing:'0.04em',textTransform:'uppercase'}}>{v.label}</button>
+                <button key={k} onClick={()=>setForm(f=>({...f,mercado:k}))} style={{flex:1,padding:'9px 4px',fontSize:11,fontWeight:600,border:`1.5px solid ${form.mercado===k?BLUE:INK15}`,borderRadius:10,background:form.mercado===k?BLUE2:'transparent',color:form.mercado===k?BLUE:INK40,cursor:'pointer',transition:'all 0.2s'}}>{v.label}</button>
               ))}
             </div>
           </FRow>
 
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
             <FRow label="Par">
               <FSelect value={form.par} onChange={e=>setForm(f=>({...f,par:e.target.value}))}>
                 {mktData.pairs.map(p=><option key={p}>{p}</option>)}
               </FSelect>
             </FRow>
-            <FRow label="Fecha"><FInput type="date" value={form.fecha} onChange={e=>setForm(f=>({...f,fecha:e.target.value}))}/></FRow>
+            <FRow label="Fecha"><input className="finput-box" type="date" value={form.fecha} onChange={e=>setForm(f=>({...f,fecha:e.target.value}))}/></FRow>
           </div>
 
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
             <FRow label="Dirección">
               <FSelect value={form.dir} onChange={e=>setForm(f=>({...f,dir:e.target.value}))}>
                 <option value="L">Long</option><option value="S">Short</option>
@@ -497,26 +694,26 @@ function TradesTab({state,setState}){
           </FRow>
 
           {/* RR auto */}
-          <div style={{background:'#080814',border:`1px solid ${autoRR!==null?ACBORD:'#1a1a2e'}`,padding:'14px',marginBottom:14}}>
+          <div style={{background:BG2,borderRadius:12,padding:'14px',marginBottom:14}}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:12}}>
-              <div style={{fontSize:10,color:'#3a3a5c',textTransform:'uppercase',letterSpacing:'0.08em',fontWeight:600}}>Calcular RR — {mktData.unit}</div>
-              {autoRR!==null&&<div style={{fontSize:14,fontWeight:700,color:AC,fontFamily:'JetBrains Mono'}}>RR = {autoRR}</div>}
+              <div style={{fontSize:10,color:INK40,textTransform:'uppercase',letterSpacing:'0.08em',fontWeight:600}}>Calcular RR — {mktData.unit}</div>
+              {autoRR!==null&&<div style={{fontSize:16,fontWeight:600,color:BLUE,fontFamily:"'Fraunces',serif"}}>RR = {autoRR}</div>}
             </div>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8}}>
               {[['Entrada',form.entrada,'entrada'],['Stop Loss',form.sl,'sl'],['Salida',form.salida,'salida']].map(([l,v,k])=>(
                 <div key={k}>
-                  <div style={{fontSize:10,color:'#3a3a5c',marginBottom:5,textTransform:'uppercase',letterSpacing:'0.06em',fontWeight:600}}>{l}</div>
-                  <FInput type="number" step="0.00001" placeholder={form.mercado==='FUTURES'?'18500.00':'1.08500'} value={v} onChange={e=>setForm(f=>({...f,[k]:e.target.value}))}/>
+                  <div style={{fontSize:10,color:INK40,marginBottom:5,textTransform:'uppercase',letterSpacing:'0.06em',fontWeight:600}}>{l}</div>
+                  <input className="finput-box" type="number" step="0.00001" placeholder={form.mercado==='FUTURES'?'18500':'1.0850'} value={v} onChange={e=>setForm(f=>({...f,[k]:e.target.value}))}/>
                 </div>
               ))}
             </div>
           </div>
 
           <FRow label="RR manual" hint={autoRR!==null?'auto':'manual'}>
-            <FInput type="number" step="0.1" placeholder={autoRR!==null?`${autoRR} (calculado)`:'Ingresar RR'} value={autoRR!==null?'':form.rr} disabled={autoRR!==null} onChange={e=>setForm(f=>({...f,rr:e.target.value}))}/>
+            <input className="finput-box" type="number" step="0.1" placeholder={autoRR!==null?`${autoRR} (calculado)`:'Ingresar RR'} value={autoRR!==null?'':form.rr} disabled={autoRR!==null} onChange={e=>setForm(f=>({...f,rr:e.target.value}))}/>
           </FRow>
 
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
             <FRow label="Tipo de zona">
               <FSelect value={form.zona} onChange={e=>setForm(f=>({...f,zona:e.target.value}))}>
                 {ZONE_TYPES.map(z=><option key={z}>{z}</option>)}
@@ -530,12 +727,12 @@ function TradesTab({state,setState}){
           </div>
 
           <FRow label="Notas MCS">
-            <FInput placeholder="Qué salió bien / mal / a mejorar..." value={form.notas} onChange={e=>setForm(f=>({...f,notas:e.target.value}))}/>
+            <input className="finput-box" placeholder="Qué salió bien / mal / a mejorar..." value={form.notas} onChange={e=>setForm(f=>({...f,notas:e.target.value}))}/>
           </FRow>
 
-          <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:18}} onClick={()=>setForm(f=>({...f,adherencia:!f.adherencia}))}>
+          <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:20}} onClick={()=>setForm(f=>({...f,adherencia:!f.adherencia}))}>
             <Chk checked={form.adherencia} onChange={()=>setForm(f=>({...f,adherencia:!f.adherencia}))}/>
-            <span style={{fontSize:13,color:'#555577',cursor:'pointer'}}>Seguí exactamente el plan MCS</span>
+            <span style={{fontSize:13,color:INK70,cursor:'pointer'}}>Seguí exactamente el plan MCS</span>
           </div>
           <button className="btn-p" onClick={addTrade} disabled={!canSave}>Guardar trade</button>
         </div>
@@ -543,25 +740,25 @@ function TradesTab({state,setState}){
 
       {view==='importar'&&(
         <div className="card" style={{marginBottom:16}}>
-          <div className="playfair" style={{fontSize:20,fontWeight:700,marginBottom:12}}>Importar CSV</div>
-          <div style={{fontSize:13,color:'#555577',marginBottom:14,lineHeight:1.6}}>Columnas requeridas: <span style={{fontFamily:'JetBrains Mono',fontSize:12,color:AC}}>fecha, dir, resultado, rr</span></div>
-          <div style={{background:'#080814',border:'1px solid #1a1a2e',padding:'10px 12px',marginBottom:14,fontFamily:'JetBrains Mono',fontSize:11,color:'#3a3a5c',lineHeight:1.9,overflowX:'auto',whiteSpace:'nowrap'}}>
+          <div style={{fontFamily:"'Fraunces',serif",fontSize:22,fontWeight:600,marginBottom:12,color:BLK}}>Importar CSV</div>
+          <div style={{fontSize:13,color:INK70,marginBottom:14,lineHeight:1.6}}>Columnas requeridas: <span style={{fontFamily:"'JetBrains Mono',monospace",fontSize:12,color:BLUE}}>fecha, dir, resultado, rr</span></div>
+          <div style={{background:BG3,borderRadius:10,padding:'10px 12px',marginBottom:14,fontFamily:"'JetBrains Mono',monospace",fontSize:11,color:INK40,lineHeight:1.9,overflowX:'auto',whiteSpace:'nowrap'}}>
             fecha,dir,resultado,rr,par,mercado,sesion<br/>
             2024-01-15,L,W,2.1,EUR/USD,FX,London
           </div>
           <input ref={fileRef} type="file" accept=".csv" onChange={importCSV} style={{display:'none'}}/>
           <button className="btn-s" style={{marginBottom:8}} onClick={()=>fileRef.current?.click()}>Seleccionar archivo CSV</button>
-          {importErr&&<div style={{fontSize:13,color:LOSS,background:LOSSBG,padding:'8px 12px',marginTop:8}}>{importErr}</div>}
-          <div style={{fontSize:11,color:'#2a2a4a',marginTop:10}}>Los trades importados se agregan al historial existente.</div>
+          {importErr&&<div style={{fontSize:13,color:LOSS,background:LOSSBG,padding:'8px 12px',marginTop:8,borderRadius:8}}>{importErr}</div>}
         </div>
       )}
 
       {view==='log'&&(
         <>
+          {/* Filtros */}
           <div className="card" style={{marginBottom:14}}>
-            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:14}}>
-              <Lbl mb={0}>Filtros</Lbl>
-              {afc>0&&<button onClick={()=>setFilters({resultado:'Todos',sesion:'Todas',semana:'Todas',mercado:'Todos'})} style={{fontSize:10,color:'#3a3a5c',background:'none',border:'none',cursor:'pointer',textTransform:'uppercase',letterSpacing:'0.06em',fontWeight:600}}>Limpiar</button>}
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:12}}>
+              <div className="lbl" style={{marginBottom:0}}>Filtros</div>
+              {afc>0&&<button onClick={()=>setFilters({resultado:'Todos',sesion:'Todas',mercado:'Todos'})} style={{fontSize:10,color:INK40,background:'none',border:'none',cursor:'pointer',textTransform:'uppercase',letterSpacing:'0.06em',fontWeight:600}}>Limpiar</button>}
             </div>
             {[
               {label:'Resultado',key:'resultado',opts:['Todos','W','L','BE'],fmt:v=>v==='W'?'Win':v==='L'?'Loss':v==='BE'?'BE':v},
@@ -569,7 +766,7 @@ function TradesTab({state,setState}){
               {label:'Sesión',key:'sesion',opts:['Todas',...allSessions],fmt:v=>v},
             ].map(({label,key,opts,fmt})=>(
               <div key={key} style={{marginBottom:10}}>
-                <div style={{fontSize:10,color:'#2a2a4a',marginBottom:6,textTransform:'uppercase',letterSpacing:'0.06em',fontWeight:600}}>{label}</div>
+                <div style={{fontSize:10,color:INK40,marginBottom:6,textTransform:'uppercase',letterSpacing:'0.06em',fontWeight:600}}>{label}</div>
                 <div style={{display:'flex',gap:5,overflowX:'auto',paddingBottom:2}}>
                   {opts.map(v=><Pill key={v} label={fmt(v)} active={filters[key]===v} onClick={()=>setFilters(f=>({...f,[key]:v}))}/>)}
                 </div>
@@ -578,235 +775,44 @@ function TradesTab({state,setState}){
           </div>
 
           {filtered.length>0&&(
-            <>
-              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:12}}>
-                <span style={{fontSize:11,color:'#3a3a5c',textTransform:'uppercase',letterSpacing:'0.06em',fontWeight:600}}>{afc>0?`${filtered.length} de ${trades.length}`:`${trades.length} trades`}</span>
-                {afc>0&&<span style={{fontSize:10,padding:'3px 10px',borderRadius:20,background:'rgba(55,138,221,0.12)',color:'#60a5fa',fontWeight:600,letterSpacing:'0.04em'}}>{afc} filtro{afc>1?'s':''}</span>}
-              </div>
-              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:1,marginBottom:16,border:'1px solid #1a1a2e'}}>
-                <MCard label="Win rate" value={`${m.wr}%`} sub={`${m.wins}W · ${m.losses}L`}/>
-                <MCard label="Expectativa" value={m.exp} sub={m.exp>0?'con edge':'sin edge'} accent={m.exp>0} danger={m.exp<0}/>
-              </div>
-            </>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:16}}>
+              <MCard label="Win rate" value={`${m.wr}%`} sub={`${m.wins}W · ${m.losses}L`}/>
+              <MCard label="Expectativa" value={m.exp} sub={m.exp>0?'con edge':'sin edge'} accent={m.exp>0} danger={m.exp<0}/>
+            </div>
           )}
 
-          {trades.length===0&&<div style={{fontSize:14,color:'#2a2a4a',textAlign:'center',padding:'4rem 0',lineHeight:2}}>Sin trades.<br/>Toca "+ Agregar".</div>}
-          {trades.length>0&&filtered.length===0&&<div style={{fontSize:14,color:'#2a2a4a',textAlign:'center',padding:'3rem 0'}}>Ningún trade coincide.</div>}
+          {trades.length===0&&(
+            <div className="card" style={{textAlign:'center',padding:'36px 20px'}}>
+              <div style={{fontFamily:"'Instrument Serif',serif",fontStyle:'italic',fontSize:15,color:INK70,lineHeight:1.8,marginBottom:20}}>Sin trades aún.<br/>Comienza tu cuaderno.</div>
+              <button onClick={()=>setView('agregar')} className="btn-p" style={{width:'auto',padding:'12px 28px'}}>Agregar el primero</button>
+            </div>
+          )}
 
-          <div style={{display:'flex',flexDirection:'column',gap:1}}>
+          <div style={{display:'flex',flexDirection:'column',gap:6}}>
             {filtered.map(t=>(
-              <div key={t.id} style={{background:'#0f0f1a',borderLeft:`3px solid ${rC(t.resultado)}`,padding:'12px 14px'}}>
-                <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:6}}>
-                  <div style={{display:'flex',alignItems:'center',gap:8}}>
-                    <span style={{fontSize:11,fontWeight:600,color:rC(t.resultado),background:rBg(t.resultado),padding:'3px 10px',borderRadius:20,letterSpacing:'0.04em'}}>{rLbl(t.resultado)}</span>
-                    <span style={{fontSize:13,fontWeight:600,color:'#ccc'}}>{t.par||'—'}</span>
-                    <span style={{fontSize:13,color:'#555577'}}>{t.dir==='L'?'L':'S'} · {t.rr}R</span>
+              <div key={t.id} className="trade-item">
+                <div className="trade-bar-left" style={{background:rC(t.resultado)}}/>
+                <div style={{flex:1}}>
+                  <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:4}}>
+                    <div style={{display:'flex',alignItems:'center',gap:8}}>
+                      <span style={{fontSize:11,fontWeight:600,color:rC(t.resultado),background:rBg(t.resultado),padding:'2px 9px',borderRadius:20}}>{rLbl(t.resultado)}</span>
+                      <span style={{fontSize:13,fontWeight:600,color:BLK}}>{t.par||'—'}</span>
+                      <span style={{fontSize:13,color:INK70}}>{t.dir==='L'?'L':'S'} · <span style={{fontFamily:"'Fraunces',serif",fontWeight:600}}>{t.rr}R</span></span>
+                    </div>
+                    <button onClick={()=>delTrade(t.id)} style={{fontSize:11,color:INK40,background:'none',border:'none',padding:'2px 4px',cursor:'pointer'}}>✕</button>
                   </div>
-                  <div style={{display:'flex',alignItems:'center',gap:8}}>
-                    {t.zona&&<span style={{fontSize:10,color:AC,background:ACBG,padding:'2px 7px',borderRadius:20,fontWeight:600}}>{t.zona}</span>}
-                    <button onClick={()=>delTrade(t.id)} style={{fontSize:11,color:'#2a2a4a',background:'none',border:'none',padding:'2px 4px',cursor:'pointer'}}>✕</button>
+                  <div style={{display:'flex',gap:8,flexWrap:'wrap',fontSize:11,color:INK40,fontFamily:"'JetBrains Mono',monospace"}}>
+                    <span>{t.fecha}</span><span>·</span><span>{t.mercado||'FX'}</span><span>·</span><span>{t.sesion}</span>
+                    {!t.adherencia&&<><span>·</span><span style={{color:LOSS}}>fuera de plan</span></>}
                   </div>
+                  {t.notas&&<div style={{fontSize:12,color:INK70,marginTop:5,fontStyle:'italic',fontFamily:"'Instrument Serif',serif"}}>{t.notas}</div>}
                 </div>
-                <div style={{display:'flex',gap:8,flexWrap:'wrap',fontSize:11,color:'#3a3a5c',fontFamily:'JetBrains Mono'}}>
-                  <span>{t.fecha}</span><span>·</span>
-                  <span>{t.mercado||'FX'}</span><span>·</span>
-                  <span>{t.sesion}</span>
-                  {t.sesgo&&<><span>·</span><span>{t.sesgo}</span></>}
-                  {!t.adherencia&&<><span>·</span><span style={{color:LOSS}}>fuera de plan</span></>}
-                </div>
-                {t.notas&&<div style={{fontSize:12,color:'#3a3a5c',marginTop:6,fontStyle:'italic'}}>{t.notas}</div>}
               </div>
             ))}
           </div>
-          {trades.length>0&&<button className="btn-s" style={{marginTop:14}} onClick={exportCSV}>Exportar CSV ↓</button>}
+          {trades.length>0&&<button className="btn-s" style={{marginTop:16}} onClick={exportCSV}>Exportar CSV ↓</button>}
         </>
       )}
-    </div>
-  );
-}
-
-/* ── MCS ── */
-function MCSTab({state,setState}){
-  const[step,setStep]=useState(0);
-  const today=new Date().toISOString().slice(0,10);
-  const isToday=state.checklistDate===today;
-  const checks=isToday?(state.checklist||{}):{};
-  const tog=(key)=>{const nc={...checks,[key]:!checks[key]};setState(s=>({...s,checklist:nc,checklistDate:today}));};
-
-  const CAPA1=[
-    {k:'c1_1',label:'Estructura Daily clara: HH/HL (alcista) o LH/LL (bajista)'},
-    {k:'c1_2',label:'BOS reciente que confirme dirección'},
-    {k:'c1_3',label:'BSL y SSL visibles mapeados'},
-    {k:'c1_4',label:'OB diario sin testear activo'},
-    {k:'c1_5',label:'FVG de Daily como imán de precio'},
-  ];
-  const CAPA2=[
-    {k:'c2_1',label:'4H alineado con sesgo Daily'},
-    {k:'c2_2',label:'OB o FVG activo en 4H en dirección del sesgo'},
-    {k:'c2_3',label:'Sweep de liquidez reciente en 4H'},
-    {k:'c2_4',label:'Zona exacta refinada en 1H'},
-    {k:'c2_5',label:'CHoCH/BOS en 1H apoyando dirección'},
-    {k:'c2_6',label:'Zona válida: 2 de 3 — OB + FVG + nivel estructural'},
-  ];
-  const CAPA3=[
-    {k:'c3_1',label:'Precio toca o sweepea ligeramente la zona'},
-    {k:'c3_2',label:'CHoCH en micro confirma cambio de dirección'},
-    {k:'c3_3',label:'Vela de rechazo con cuerpo real (no solo mecha)'},
-    {k:'c3_4',label:'Entrada al cierre de vela o primer retroceso'},
-  ];
-  const NOOPERAR=[
-    {k:'no_1',label:'Daily sin estructura clara'},
-    {k:'no_2',label:'Precio llegó con impulso que perforó OB'},
-    {k:'no_3',label:'No hay CHoCH en micro — solo toque'},
-    {k:'no_4',label:'Noticia alto impacto en próxima hora'},
-    {k:'no_5',label:'Ya perdiste 2 trades o 2% hoy'},
-    {k:'no_6',label:'Llevas 2 trades ejecutados hoy'},
-  ];
-
-  const c1done=CAPA1.filter(c=>checks[c.k]).length;
-  const c2done=CAPA2.filter(c=>checks[c.k]).length;
-  const c3done=CAPA3.filter(c=>checks[c.k]).length;
-  const noOperar=NOOPERAR.some(c=>checks[c.k]);
-  const canTrade=c1done>=4&&c2done>=4&&c3done===4&&!noOperar;
-
-  const steps=[
-    {label:'Capa 1',sub:'Daily'},
-    {label:'Capa 2',sub:'4H+1H'},
-    {label:'Capa 3',sub:'Micro'},
-    {label:'No operar'},
-    {label:'Decisión'},
-  ];
-
-  function CheckGroup({items}){return(
-    <div style={{display:'flex',flexDirection:'column',gap:10}}>
-      {items.map(({k,label})=>{const checked=!!checks[k];return(
-        <div key={k} onClick={()=>tog(k)} style={{display:'flex',alignItems:'flex-start',gap:12,background:checked?ACBG:'#080814',border:`1px solid ${checked?ACBORD:'#1a1a2e'}`,padding:'12px',cursor:'pointer',transition:'all 0.15s'}}>
-          <Chk checked={checked} onChange={()=>tog(k)}/>
-          <span style={{fontSize:13,color:checked?AC:'#aaa',textDecoration:checked?'line-through':'none',lineHeight:1.5}}>{label}</span>
-        </div>
-      );})}
-    </div>
-  );}
-
-  return(
-    <div style={{paddingTop:24}}>
-      <div style={{marginBottom:20}}>
-        <div className="lbl" style={{marginBottom:6}}>Flujo de decisión MCS</div>
-        <div style={{display:'flex',gap:0,overflowX:'auto',paddingBottom:4}}>
-          {steps.map((s,i)=>(
-            <button key={i} onClick={()=>setStep(i)} style={{flex:1,minWidth:60,padding:'8px 4px',fontSize:10,fontWeight:600,border:`1px solid ${step===i?AC:'#1a1a2e'}`,borderRight:i<steps.length-1?'none':undefined,background:step===i?ACBG:'transparent',color:step===i?AC:'#3a3a5c',cursor:'pointer',textTransform:'uppercase',letterSpacing:'0.04em',flexShrink:0}}>
-              <div>{s.label}</div>
-              {s.sub&&<div style={{fontSize:9,marginTop:2,opacity:0.7}}>{s.sub}</div>}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {step===0&&(
-        <>
-          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:14}}>
-            <div className="playfair" style={{fontSize:20,fontWeight:700}}>Capa 1 — Sesgo Daily</div>
-            <span style={{fontSize:11,color:c1done>=4?WIN:'#3a3a5c',fontFamily:'JetBrains Mono',fontWeight:600}}>{c1done}/5</span>
-          </div>
-          <div style={{fontSize:13,color:'#555577',marginBottom:16,lineHeight:1.6}}>Una vez al día. Establece la dirección macro antes de cualquier otra cosa.</div>
-          <CheckGroup items={CAPA1}/>
-          {c1done<4&&<div style={{fontSize:12,color:LOSS,background:LOSSBG,padding:'10px 12px',marginTop:14}}>Mínimo 4 de 5 condiciones para continuar.</div>}
-          {c1done>=4&&<div style={{fontSize:12,color:WIN,background:WINBG,padding:'10px 12px',marginTop:14}}>✓ Sesgo diario confirmado — ir a Capa 2.</div>}
-          <button onClick={()=>setStep(1)} className="btn-p" style={{marginTop:16}}>Siguiente → Capa 2</button>
-        </>
-      )}
-
-      {step===1&&(
-        <>
-          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:14}}>
-            <div className="playfair" style={{fontSize:20,fontWeight:700}}>Capa 2 — Contexto 4H+1H</div>
-            <span style={{fontSize:11,color:c2done>=4?WIN:'#3a3a5c',fontFamily:'JetBrains Mono',fontWeight:600}}>{c2done}/6</span>
-          </div>
-          <div style={{fontSize:13,color:'#555577',marginBottom:16,lineHeight:1.6}}>Confirma alineación con el sesgo. Zona válida = 2 de 3: OB + FVG + nivel estructural.</div>
-          <CheckGroup items={CAPA2}/>
-          {c2done<4&&<div style={{fontSize:12,color:LOSS,background:LOSSBG,padding:'10px 12px',marginTop:14}}>Mínimo 4 de 6. Si no hay zona, pon alerta y espera.</div>}
-          {c2done>=4&&<div style={{fontSize:12,color:WIN,background:WINBG,padding:'10px 12px',marginTop:14}}>✓ Zona operativa identificada — ir a Capa 3.</div>}
-          <button onClick={()=>setStep(2)} className="btn-p" style={{marginTop:16}}>Siguiente → Capa 3</button>
-        </>
-      )}
-
-      {step===2&&(
-        <>
-          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:14}}>
-            <div className="playfair" style={{fontSize:20,fontWeight:700}}>Capa 3 — Confirmación Micro</div>
-            <span style={{fontSize:11,color:c3done===4?WIN:'#3a3a5c',fontFamily:'JetBrains Mono',fontWeight:600}}>{c3done}/4</span>
-          </div>
-          <div style={{fontSize:13,color:'#555577',marginBottom:16,lineHeight:1.6}}>15M en FX · 1M en NQ. Todas las condiciones son obligatorias.</div>
-          <CheckGroup items={CAPA3}/>
-          {c3done<4&&<div style={{fontSize:12,color:LOSS,background:LOSSBG,padding:'10px 12px',marginTop:14}}>Las 4 condiciones son obligatorias. Si falta una, espera.</div>}
-          {c3done===4&&<div style={{fontSize:12,color:WIN,background:WINBG,padding:'10px 12px',marginTop:14}}>✓ Confirmación completa — verificar condiciones de no operar.</div>}
-          <button onClick={()=>setStep(3)} className="btn-p" style={{marginTop:16}}>Siguiente → No operar si...</button>
-        </>
-      )}
-
-      {step===3&&(
-        <>
-          <div className="playfair" style={{fontSize:20,fontWeight:700,marginBottom:6,color:LOSS}}>No operar si...</div>
-          <div style={{fontSize:13,color:'#555577',marginBottom:16,lineHeight:1.6}}>Si cualquiera de estas aplica, no ejecutes. Sin excepciones.</div>
-          <div style={{display:'flex',flexDirection:'column',gap:10,marginBottom:16}}>
-            {NOOPERAR.map(({k,label})=>{const checked=!!checks[k];return(
-              <div key={k} onClick={()=>tog(k)} style={{display:'flex',alignItems:'flex-start',gap:12,background:checked?LOSSBG:'#080814',border:`1px solid ${checked?'rgba(239,68,68,0.3)':'#1a1a2e'}`,padding:'12px',cursor:'pointer',transition:'all 0.15s'}}>
-                <div style={{width:20,height:20,borderRadius:4,border:`1px solid ${checked?LOSS:'#2a2a4a'}`,background:checked?LOSS:'#0c0c1a',flexShrink:0,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer'}}>
-                  {checked&&<svg width="11" height="9" viewBox="0 0 11 9"><polyline points="1,4.5 4.5,8 10,1" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round"/></svg>}
-                </div>
-                <span style={{fontSize:13,color:checked?LOSS:'#aaa',lineHeight:1.5}}>{label}</span>
-              </div>
-            );})}
-          </div>
-          {noOperar&&<div style={{fontSize:13,color:LOSS,background:LOSSBG,padding:'12px',marginBottom:14,fontWeight:600}}>⚠ Condición activa — NO ejecutar. Respeta el proceso.</div>}
-          {!noOperar&&<div style={{fontSize:13,color:WIN,background:WINBG,padding:'12px',marginBottom:14}}>✓ Sin restricciones activas.</div>}
-          <button onClick={()=>setStep(4)} className="btn-p">Ver decisión final →</button>
-        </>
-      )}
-
-      {step===4&&(
-        <>
-          <div className="playfair" style={{fontSize:22,fontWeight:700,marginBottom:20}}>Decisión</div>
-          {canTrade?(
-            <div style={{background:WINBG,border:`1px solid ${WINBORD}`,padding:'24px',textAlign:'center',marginBottom:20}}>
-              <div className="playfair" style={{fontSize:28,fontWeight:700,color:WIN,marginBottom:8}}>Ejecutar</div>
-              <div style={{fontSize:14,color:WIN,lineHeight:1.7}}>Todas las capas confirmadas.<br/>SL estructural. TP1 a 1:1 → 50% cierre → SL a BE.</div>
-            </div>
-          ):(
-            <div style={{background:LOSSBG,border:'1px solid rgba(239,68,68,0.3)',padding:'24px',textAlign:'center',marginBottom:20}}>
-              <div className="playfair" style={{fontSize:28,fontWeight:700,color:LOSS,marginBottom:8}}>No operar</div>
-              <div style={{fontSize:14,color:LOSS,lineHeight:1.7}}>
-                {noOperar?'Condición de no operar activa.':'Capas incompletas.'}
-                <br/>Pon una alerta y espera el próximo setup.
-              </div>
-            </div>
-          )}
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:1,border:'1px solid #1a1a2e',marginBottom:20}}>
-            {[['C1',c1done,'≥4/5'],['C2',c2done,'≥4/6'],['C3',c3done,'4/4']].map(([l,v,t])=>(
-              <div key={l} style={{padding:'12px',background:'#0f0f1a',textAlign:'center'}}>
-                <div style={{fontSize:10,color:'#3a3a5c',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:6,fontWeight:600}}>{l}</div>
-                <div style={{fontSize:18,fontWeight:700,fontFamily:'JetBrains Mono',color:v>=(parseInt(t))||v===4?WIN:LOSS}}>{v}</div>
-                <div style={{fontSize:9,color:'#3a3a5c',marginTop:3,fontFamily:'JetBrains Mono'}}>{t}</div>
-              </div>
-            ))}
-          </div>
-          <button onClick={()=>{setState(s=>({...s,checklist:{},checklistDate:''}));setStep(0);}} className="btn-s">Resetear checklist</button>
-        </>
-      )}
-
-      <Div/>
-      <Lbl>Reglas mentales MCS</Lbl>
-      {[
-        {t:'Proceso > resultado',d:'Una pérdida dentro del proceso es aceptable. Una pérdida fuera del proceso es cara.'},
-        {t:'Sin trades = posición correcta',d:'La ausencia de operaciones es una decisión activa, no un fallo.'},
-        {t:'30 trades para evaluar el edge',d:'La impaciencia destruye sistemas rentables. Deja que la estadística hable.'},
-        {t:'Racha perdedora no rompe el sistema',d:'Solo lo pone a prueba. Revisa el proceso, no el resultado individual.'},
-      ].map(({t,d})=>(
-        <div key={t} style={{background:'#0a0a14',border:`1px solid ${ACBORD}`,borderLeft:`3px solid ${AC}`,padding:'12px 14px',marginBottom:8}}>
-          <div style={{fontSize:13,fontWeight:600,color:AC,marginBottom:4}}>{t}</div>
-          <div style={{fontSize:13,color:'#555577',lineHeight:1.55}}>{d}</div>
-        </div>
-      ))}
     </div>
   );
 }
@@ -820,24 +826,24 @@ function EqChart({trades,capital,riskPct}){
     if(cRef.current)cRef.current.destroy();
     cRef.current=new Chart(ref.current,{
       type:'line',
-      data:{labels:pts.map(p=>p.x),datasets:[{data:pts.map(p=>p.y),borderColor:AC,borderWidth:2,pointBackgroundColor:pts.map((p,i)=>i===0?'transparent':rC(p.t?.resultado||'BE')),pointBorderColor:pts.map((p,i)=>i===0?'transparent':rC(p.t?.resultado||'BE')),pointRadius:pts.map((_,i)=>i===0?0:5),fill:false,tension:0.15}]},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'$'+ctx.parsed.y.toLocaleString()}}},scales:{x:{grid:{display:false},ticks:{maxTicksLimit:5,font:{size:10},color:'#3a3a5c',maxRotation:45},border:{color:'#1a1a2e'}},y:{grid:{color:'rgba(139,92,246,0.05)'},ticks:{font:{size:10},color:'#3a3a5c',callback:v=>'$'+v.toLocaleString()},border:{color:'#1a1a2e'}}}}
+      data:{labels:pts.map(p=>p.x),datasets:[{data:pts.map(p=>p.y),borderColor:BLUE,borderWidth:2,pointBackgroundColor:pts.map((p,i)=>i===0?'transparent':rC(p.t?.resultado||'BE')),pointBorderColor:pts.map((p,i)=>i===0?'transparent':rC(p.t?.resultado||'BE')),pointRadius:pts.map((_,i)=>i===0?0:5),fill:{target:'origin',above:'rgba(30,61,92,0.05)',below:'rgba(139,48,32,0.05)'},tension:0.25}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'$'+ctx.parsed.y.toLocaleString()}}},scales:{x:{grid:{display:false},ticks:{maxTicksLimit:5,font:{size:10,family:'JetBrains Mono'},color:INK40,maxRotation:45},border:{color:INK15}},y:{grid:{color:'rgba(156,148,133,0.15)'},ticks:{font:{size:10,family:'JetBrains Mono'},color:INK40,callback:v=>'$'+v.toLocaleString()},border:{color:INK15}}}}
     });
     return()=>{if(cRef.current){cRef.current.destroy();cRef.current=null;}};
   },[pts]);
-  if(pts.length<2)return<div style={{fontSize:13,color:'#2a2a4a',textAlign:'center',padding:'2rem 0'}}>Agrega trades para ver la curva.</div>;
+  if(pts.length<2)return<div style={{fontFamily:"'Instrument Serif',serif",fontStyle:'italic',fontSize:14,color:INK40,textAlign:'center',padding:'2rem 0'}}>Agrega trades para ver la curva.</div>;
   const fin=pts[pts.length-1].y,pnl=parseFloat((fin-capital).toFixed(2)),pct=parseFloat(((pnl/capital)*100).toFixed(2)),dd=calcDD(pts);
   return(
     <div>
-      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:1,marginBottom:14,border:'1px solid #1a1a2e'}}>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:14}}>
         <MCard label="Capital actual" value={`$${fin.toLocaleString()}`} sub={`inicio $${capital.toLocaleString()}`}/>
         <MCard label="P&L total" value={`${pnl>=0?'+':''}$${pnl.toLocaleString()}`} sub={`${pct>=0?'+':''}${pct}%`} accent={pnl>=0} danger={pnl<0}/>
       </div>
-      <div style={{display:'flex',gap:16,fontSize:10,color:'#3a3a5c',marginBottom:10,flexWrap:'wrap',textTransform:'uppercase',letterSpacing:'0.06em',fontWeight:600}}>
+      <div style={{display:'flex',gap:16,fontSize:10,color:INK40,marginBottom:10,flexWrap:'wrap',textTransform:'uppercase',letterSpacing:'0.06em',fontWeight:600}}>
         {[[WIN,'Win'],[LOSS,'Loss'],[BE,'BE']].map(([c,l])=>(
-          <span key={l} style={{display:'flex',alignItems:'center',gap:5}}><span style={{width:7,height:7,background:c,display:'inline-block'}}/>{l}</span>
+          <span key={l} style={{display:'flex',alignItems:'center',gap:5}}><span style={{width:7,height:7,background:c,borderRadius:2,display:'inline-block'}}/>{l}</span>
         ))}
-        <span style={{marginLeft:'auto',fontFamily:'JetBrains Mono',fontSize:10}}>Max DD {dd}%</span>
+        <span style={{marginLeft:'auto',fontFamily:"'JetBrains Mono',monospace",fontSize:10}}>Max DD {dd}%</span>
       </div>
       <div style={{position:'relative',height:200}}><canvas ref={ref} role="img" aria-label="Curva de equity"/></div>
     </div>
@@ -851,67 +857,56 @@ function MetricasTab({state}){
   const bs=bestSes(trades);
   const pts=calcEq(trades,state.capital,state.riskOp||1);
   const dd=calcDD(pts);
-  const bySes=useMemo(()=>{
-    const map={};
-    trades.forEach(t=>{if(!map[t.sesion])map[t.sesion]={w:0,l:0,be:0};if(t.resultado==='W')map[t.sesion].w++;else if(t.resultado==='L')map[t.sesion].l++;else map[t.sesion].be++;});
-    return Object.entries(map).map(([s,v])=>({s,tot:v.w+v.l+v.be,wr:Math.round(v.w/(v.w+v.l+v.be)*100),...v})).sort((a,b)=>b.wr-a.wr);
-  },[trades]);
-  const byZone=useMemo(()=>{
-    const map={};
-    trades.forEach(t=>{if(!t.zona)return;if(!map[t.zona])map[t.zona]={w:0,l:0};if(t.resultado==='W')map[t.zona].w++;else if(t.resultado==='L')map[t.zona].l++;});
-    return Object.entries(map).map(([z,v])=>({z,tot:v.w+v.l,wr:Math.round(v.w/(v.w+v.l)*100),...v})).sort((a,b)=>b.tot-a.tot);
-  },[trades]);
+  const bySes=useMemo(()=>{const map={};trades.forEach(t=>{if(!map[t.sesion])map[t.sesion]={w:0,l:0,be:0};if(t.resultado==='W')map[t.sesion].w++;else if(t.resultado==='L')map[t.sesion].l++;else map[t.sesion].be++;});return Object.entries(map).map(([s,v])=>({s,tot:v.w+v.l+v.be,wr:Math.round(v.w/(v.w+v.l+v.be)*100),...v})).sort((a,b)=>b.wr-a.wr);},[trades]);
+  const byZone=useMemo(()=>{const map={};trades.forEach(t=>{if(!t.zona)return;if(!map[t.zona])map[t.zona]={w:0,l:0};if(t.resultado==='W')map[t.zona].w++;else if(t.resultado==='L')map[t.zona].l++;});return Object.entries(map).map(([z,v])=>({z,tot:v.w+v.l,wr:Math.round(v.w/(v.w+v.l)*100),...v})).sort((a,b)=>b.tot-a.tot);},[trades]);
 
-  if(!trades.length)return<div style={{fontSize:14,color:'#2a2a4a',textAlign:'center',padding:'4rem 1rem',lineHeight:2}}>Sin trades registrados.</div>;
+  if(!trades.length)return(
+    <div style={{paddingTop:28}}>
+      <div className="eyebrow">Análisis</div>
+      <div className="page-title">Métricas</div>
+      <div className="page-sub">Las cifras llegarán cuando el cuaderno tenga vida.</div>
+      <div className="card" style={{textAlign:'center',padding:'36px 20px'}}>
+        <div style={{fontFamily:"'Instrument Serif',serif",fontStyle:'italic',fontSize:15,color:INK70,lineHeight:1.8}}>Aún sin trades.<br/>Comienza a registrar para ver tu edge.</div>
+      </div>
+    </div>
+  );
 
   return(
-    <div style={{paddingTop:24}}>
-      <Lbl>Curva de equity</Lbl>
+    <div style={{paddingTop:28}}>
+      <div className="eyebrow">Análisis</div>
+      <div className="page-title">Métricas</div>
+      <div className="page-sub">Rendimiento estadístico del sistema.</div>
+
+      <div className="lbl">Curva de equity</div>
       <div className="card" style={{marginBottom:24}}><EqChart trades={trades} capital={state.capital} riskPct={state.riskOp||1}/></div>
 
-      <Lbl>Métricas globales</Lbl>
-      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:1,marginBottom:24,border:'1px solid #1a1a2e'}}>
+      <div className="lbl">Métricas globales</div>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:24}}>
         <MCard label="Win rate" value={`${m.wr}%`} sub={`${m.wins}W · ${m.losses}L`}/>
         <MCard label="Expectativa" value={m.exp} sub={m.exp>0?'con edge':'sin edge'} accent={m.exp>0} danger={m.exp<0}/>
         <MCard label="RR promedio" value={m.rrAvg} sub="ajustado"/>
         <MCard label="Adherencia" value={`${m.adh}%`} sub={m.adh>=85?'ok':'meta 85%'} accent={m.adh>=85} danger={m.adh<70}/>
       </div>
 
-      <Lbl>Riesgo</Lbl>
-      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:1,marginBottom:24,border:'1px solid #1a1a2e'}}>
+      <div className="lbl">Riesgo</div>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:24}}>
         <MCard label="Max drawdown" value={`${dd}%`} sub={dd<6?'dentro del límite':'supera el 6%'} danger={dd>=6}/>
         <MCard label="Mejor sesión" value={bs} sub="≥2 trades"/>
         <MCard label="Racha win" value={strk.win} sub="máxima"/>
         <MCard label="Racha loss" value={strk.loss} sub="máxima" danger={strk.loss>=3}/>
       </div>
 
-      <Lbl>Win rate por sesión</Lbl>
-      <div style={{display:'flex',flexDirection:'column',gap:1,marginBottom:24}}>
-        {bySes.map(({s,tot,wr})=>(
-          <div key={s} style={{background:'#0f0f1a',border:'1px solid #1a1a2e',padding:'12px 14px'}}>
-            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>
-              <span style={{fontSize:13,color:'#ccc'}}>{s}</span>
-              <div style={{display:'flex',alignItems:'center',gap:10}}>
-                <span style={{fontSize:11,color:'#3a3a5c',fontFamily:'JetBrains Mono'}}>{tot} trades</span>
-                <span style={{fontSize:15,fontWeight:700,color:wr>=50?WIN:LOSS,fontFamily:'JetBrains Mono'}}>{wr}%</span>
-              </div>
-            </div>
-            <div className="pbar"><div className="pbar-fill" style={{width:`${wr}%`,background:wr>=50?WIN:LOSS}}/></div>
-          </div>
-        ))}
-      </div>
-
-      {byZone.length>0&&(
+      {bySes.length>0&&(
         <>
-          <Lbl>Win rate por tipo de zona MCS</Lbl>
-          <div style={{display:'flex',flexDirection:'column',gap:1,marginBottom:24}}>
-            {byZone.map(({z,tot,wr})=>(
-              <div key={z} style={{background:'#0f0f1a',borderLeft:`3px solid ${AC}`,padding:'12px 14px'}}>
+          <div className="lbl">Win rate por sesión</div>
+          <div style={{display:'flex',flexDirection:'column',gap:6,marginBottom:24}}>
+            {bySes.map(({s,tot,wr})=>(
+              <div key={s} style={{background:BG2,borderRadius:10,padding:'12px 14px'}}>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>
-                  <span style={{fontSize:13,color:AC,fontWeight:600}}>{z}</span>
+                  <span style={{fontSize:13,color:BLK}}>{s}</span>
                   <div style={{display:'flex',alignItems:'center',gap:10}}>
-                    <span style={{fontSize:11,color:'#3a3a5c',fontFamily:'JetBrains Mono'}}>{tot} trades</span>
-                    <span style={{fontSize:15,fontWeight:700,color:wr>=50?WIN:LOSS,fontFamily:'JetBrains Mono'}}>{wr}%</span>
+                    <span style={{fontSize:11,color:INK40,fontFamily:"'JetBrains Mono',monospace"}}>{tot} trades</span>
+                    <span style={{fontSize:20,fontWeight:600,color:wr>=50?WIN:LOSS,fontFamily:"'Fraunces',serif"}}>{wr}%</span>
                   </div>
                 </div>
                 <div className="pbar"><div className="pbar-fill" style={{width:`${wr}%`,background:wr>=50?WIN:LOSS}}/></div>
@@ -921,24 +916,106 @@ function MetricasTab({state}){
         </>
       )}
 
-      <Lbl>Umbrales para ir live</Lbl>
-      <div style={{display:'flex',flexDirection:'column',gap:1,border:'1px solid #1a1a2e'}}>
+      {byZone.length>0&&(
+        <>
+          <div className="lbl">Win rate por zona MCS</div>
+          <div style={{display:'flex',flexDirection:'column',gap:6,marginBottom:24}}>
+            {byZone.map(({z,tot,wr})=>(
+              <div key={z} style={{background:BG2,borderLeft:`3px solid ${BLUE}`,borderRadius:'0 10px 10px 0',padding:'12px 14px'}}>
+                <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>
+                  <span style={{fontSize:13,color:BLUE,fontWeight:600}}>{z}</span>
+                  <div style={{display:'flex',alignItems:'center',gap:10}}>
+                    <span style={{fontSize:11,color:INK40,fontFamily:"'JetBrains Mono',monospace"}}>{tot} trades</span>
+                    <span style={{fontSize:20,fontWeight:600,color:wr>=50?WIN:LOSS,fontFamily:"'Fraunces',serif"}}>{wr}%</span>
+                  </div>
+                </div>
+                <div className="pbar"><div className="pbar-fill" style={{width:`${wr}%`,background:wr>=50?WIN:LOSS}}/></div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      <div className="lbl">Umbrales para ir live</div>
+      <div style={{background:BG2,borderRadius:12,padding:'0 14px',marginBottom:24}}>
         {[
           {label:'Muestra mínima',display:`${m.total} trades`,ok:m.total>=30,meta:'30 trades MCS'},
           {label:'Expectativa positiva',display:String(m.exp),ok:m.exp>0,meta:'E > 0'},
           {label:'Adherencia al plan',display:`${m.adh}%`,ok:m.adh>=85,meta:'85%'},
           {label:'Drawdown máximo',display:`${dd}%`,ok:dd<6,meta:'< 6%'},
         ].map(({label,display,ok,meta})=>(
-          <div key={label} style={{display:'flex',alignItems:'center',gap:12,padding:'12px 14px',background:'#0f0f1a'}}>
-            <div style={{width:18,height:18,background:ok?WIN:LOSS,flexShrink:0,display:'flex',alignItems:'center',justifyContent:'center'}}>
+          <div key={label} className="thresh-row">
+            <div style={{width:20,height:20,borderRadius:6,background:ok?WIN:LOSS,flexShrink:0,display:'flex',alignItems:'center',justifyContent:'center'}}>
               {ok?<svg width="11" height="9" viewBox="0 0 11 9"><polyline points="1,4.5 4.5,8 10,1" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round"/></svg>:<svg width="9" height="9" viewBox="0 0 9 9"><line x1="1" y1="1" x2="8" y2="8" stroke="#fff" strokeWidth="2" strokeLinecap="round"/><line x1="8" y1="1" x2="1" y2="8" stroke="#fff" strokeWidth="2" strokeLinecap="round"/></svg>}
             </div>
-            <span style={{fontSize:13,color:'#888',flex:1}}>{label}</span>
-            <span style={{fontSize:13,fontWeight:700,color:ok?WIN:LOSS,fontFamily:'JetBrains Mono'}}>{display}</span>
-            <span style={{fontSize:10,color:'#3a3a5c',minWidth:60,textAlign:'right',fontFamily:'JetBrains Mono'}}>{meta}</span>
+            <span style={{fontSize:13,color:INK70,flex:1}}>{label}</span>
+            <span style={{fontSize:18,fontWeight:600,color:ok?WIN:LOSS,fontFamily:"'Fraunces',serif"}}>{display}</span>
+            <span style={{fontSize:10,color:INK40,minWidth:52,textAlign:'right',fontFamily:"'JetBrains Mono',monospace"}}>{meta}</span>
           </div>
         ))}
       </div>
+    </div>
+  );
+}
+
+/* ── SEMANAS ── */
+function SemanasTab({state,setState}){
+  const[open,setOpen]=useState(null);
+  const wp=state.weekProgress||{};
+  return(
+    <div style={{paddingTop:28}}>
+      <div className="eyebrow">Programa</div>
+      <div className="page-title">Semanas</div>
+      <div className="page-sub">Dos meses. Ocho pasos. Un sistema.</div>
+
+      {[1,2].map(mes=>(
+        <div key={mes} style={{marginBottom:24}}>
+          <div className="lbl">Mes {mes}</div>
+          {WEEKS.filter(w=>w.mes===mes).map(w=>{
+            const done=(wp[w.n]||[]);const pct=Math.round(done.length/w.checks.length*100);const isOpen=open===w.n;
+            return(
+              <div key={w.n} className={`week-card${isOpen?' active':''}`} onClick={()=>setOpen(isOpen?null:w.n)}>
+                <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:6}}>
+                  <div style={{display:'flex',alignItems:'center',gap:10}}>
+                    <div style={{width:28,height:28,borderRadius:8,background:pct===100?WIN:isOpen?BLUE:BG3,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
+                      <span style={{fontSize:12,fontWeight:700,fontFamily:"'Fraunces',serif",color:pct===100||isOpen?'#fff':INK70}}>{w.n}</span>
+                    </div>
+                    <div>
+                      <div style={{fontSize:13,fontWeight:600,color:BLK}}>{w.focus}</div>
+                      <div style={{fontSize:11,color:INK40,fontStyle:'italic'}}>Mes {w.mes}</div>
+                    </div>
+                  </div>
+                  <div style={{display:'flex',alignItems:'center',gap:8}}>
+                    <span style={{fontSize:12,fontWeight:600,fontFamily:"'Fraunces',serif",color:pct===100?WIN:INK40}}>{pct}%</span>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke={INK40} strokeWidth="1.5" strokeLinecap="round" style={{transform:isOpen?'rotate(180deg)':'none',transition:'transform 0.2s'}}><polyline points="2,5 7,9 12,5"/></svg>
+                  </div>
+                </div>
+                <div className="pbar"><div className="pbar-fill" style={{width:`${pct}%`,background:pct===100?WIN:BLUE}}/></div>
+
+                {isOpen&&(
+                  <div style={{marginTop:14}} onClick={e=>e.stopPropagation()}>
+                    <div style={{fontFamily:"'Instrument Serif',serif",fontStyle:'italic',fontSize:14,color:INK70,marginBottom:14,lineHeight:1.6}}>{w.task}</div>
+                    {w.checks.map((c,i)=>{
+                      const checked=(wp[w.n]||[]).includes(i);
+                      const toggle=()=>{
+                        const cur=wp[w.n]||[];
+                        const next=checked?cur.filter(x=>x!==i):[...cur,i];
+                        setState(s=>({...s,weekProgress:{...s.weekProgress,[w.n]:next}}));
+                      };
+                      return(
+                        <div key={i} onClick={toggle} className={`chk-item${checked?' ok':''}`}>
+                          <Chk checked={checked} onChange={toggle}/>
+                          <span className={`chk-lbl${checked?' ok':''}`}>{c}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      ))}
     </div>
   );
 }
@@ -947,56 +1024,97 @@ function MetricasTab({state}){
 function CalcTab({state,setState}){
   const{capital,riskVal,riskOp,wr,rr}=state;
   const exp=parseFloat(((wr/100*rr)-(1-wr/100)).toFixed(2));
-  const riskValidacion=(capital*(riskVal||0.5)/100);
-  const riskOperando=(capital*(riskOp||1.0)/100);
+  const riskV=(capital*(riskVal||0.5)/100);
+  const riskO=(capital*(riskOp||1.0)/100);
 
   return(
-    <div style={{paddingTop:24}}>
-      <div className="playfair" style={{fontSize:26,fontWeight:700,marginBottom:4}}>Calculadora</div>
-      <div style={{fontSize:13,color:'#555577',marginBottom:24}}>Gestión de riesgo MCS</div>
+    <div style={{paddingTop:28}}>
+      <div className="eyebrow">Gestión MCS</div>
+      <div className="page-title">Calculadora</div>
+      <div className="page-sub">Riesgo y expectativa, en su sitio.</div>
 
-      <Lbl>Capital base</Lbl>
-      <NumInput label="Capital ($)" value={capital} min={500} max={150000} step={100} unit="USD" onChange={v=>setState(s=>({...s,capital:v}))}/>
-
-      <Div/>
-      <Lbl>Riesgo por trade</Lbl>
-      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10,marginBottom:6}}>
-        <NumInput label="Validación (%)" value={riskVal||0.5} min={0.25} max={3} step={0.25} unit="%" onChange={v=>setState(s=>({...s,riskVal:v}))}/>
-        <NumInput label="Operando (%)" value={riskOp||1.0} min={0.25} max={3} step={0.25} unit="%" onChange={v=>setState(s=>({...s,riskOp:v}))}/>
-      </div>
-      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:1,border:'1px solid #1a1a2e',marginBottom:24}}>
-        <MCard label="Riesgo validación" value={`$${riskValidacion.toFixed(0)}`} sub={`${riskVal||0.5}% del capital`}/>
-        <MCard label="Riesgo operando" value={`$${riskOperando.toFixed(0)}`} sub={`${riskOp||1.0}% del capital`} accent/>
-      </div>
-
-      <Div/>
-      <Lbl>Límites MCS</Lbl>
-      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:1,border:'1px solid #1a1a2e',marginBottom:24}}>
-        <MCard label="Pérd. máx. diaria" value={`$${(capital*0.02).toFixed(0)}`} sub="2% del capital" danger/>
-        <MCard label="Máx. trades/día" value="2" sub="sin excepciones"/>
-        <MCard label="SL > 1.5% precio" value="Invalidado" sub="zona mal definida" danger/>
-        <MCard label="Swing sin mvto." value="48h" sub="cerrar posición"/>
-      </div>
-
-      <Div/>
-      <Lbl>Expectativa del sistema</Lbl>
-      <div style={{background:'#080814',border:`1px solid ${ACBORD}`,padding:'14px',marginBottom:20,fontFamily:'JetBrains Mono',fontSize:14,color:'#555577'}}>
-        E = (WR × RR) − (1 − WR)
-        <div style={{fontSize:11,marginTop:4,color:'#3a3a5c'}}>E {'>'} 0 = sistema con edge estadístico</div>
-      </div>
-      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
-        <NumInput label="Win rate (%)" value={wr} min={1} max={99} step={1} unit="%" onChange={v=>setState(s=>({...s,wr:v}))}/>
-        <NumInput label="RR promedio" value={rr} min={0.5} max={10} step={0.1} onChange={v=>setState(s=>({...s,rr:v}))}/>
-      </div>
-      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'20px',background:exp>0?ACBG:exp<0?LOSSBG:'#0f0f1a',border:`1px solid ${exp>0?ACBORD:exp<0?'rgba(239,68,68,0.3)':'#1a1a2e'}`,marginBottom:12}}>
-        <div>
-          <div style={{fontSize:10,color:exp>0?AC:exp<0?LOSS:'#3a3a5c',textTransform:'uppercase',letterSpacing:'0.08em',fontWeight:600,marginBottom:4}}>Expectativa</div>
-          <div style={{fontSize:12,color:exp>0?AC:exp<0?LOSS:'#555577'}}>{exp>0?`+$${Math.abs(exp).toFixed(2)} por $1 arriesgado`:exp<0?`-$${Math.abs(exp).toFixed(2)} por $1 arriesgado`:'Sistema en breakeven'}</div>
+      {/* Capital */}
+      <div className="lbl">Capital base</div>
+      <FRow label="Capital ($)">
+        <div style={{display:'flex',alignItems:'center',gap:8}}>
+          <input className="finput" type="number" value={capital} min={500} max={150000} step={100}
+            onChange={e=>{const n=parseFloat(e.target.value);if(!isNaN(n)&&n>=500&&n<=150000)setState(s=>({...s,capital:n}));}}
+            style={{fontSize:20,fontFamily:"'Fraunces',serif",fontWeight:600}}
+          />
+          <span style={{fontSize:12,color:INK40,fontFamily:"'JetBrains Mono',monospace"}}>USD</span>
         </div>
-        <div style={{fontSize:36,fontWeight:700,color:exp>0?AC:exp<0?LOSS:'#555577',fontFamily:'JetBrains Mono',letterSpacing:'-1px'}}>{exp}</div>
+      </FRow>
+
+      <Div/>
+
+      {/* Riesgo */}
+      <div className="lbl">Riesgo por trade</div>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:20,marginBottom:16}}>
+        <FRow label="Validación %" mb={0}>
+          <input className="finput" type="number" value={riskVal||0.5} min={0.25} max={3} step={0.25}
+            onChange={e=>{const n=parseFloat(e.target.value);if(!isNaN(n))setState(s=>({...s,riskVal:n}));}}
+            style={{fontSize:18,fontFamily:"'Fraunces',serif",fontWeight:600}}
+          />
+        </FRow>
+        <FRow label="Operando %" mb={0}>
+          <input className="finput" type="number" value={riskOp||1.0} min={0.25} max={3} step={0.25}
+            onChange={e=>{const n=parseFloat(e.target.value);if(!isNaN(n))setState(s=>({...s,riskOp:n}));}}
+            style={{fontSize:18,fontFamily:"'Fraunces',serif",fontWeight:600}}
+          />
+        </FRow>
       </div>
-      <div style={{fontSize:11,padding:'4px 12px',borderRadius:20,display:'inline-block',background:exp>0?ACBG:exp<0?LOSSBG:'#1a1a2e',color:exp>0?AC:exp<0?LOSS:'#555577',fontWeight:700,letterSpacing:'0.06em'}}>
-        {exp>0?'CON EDGE':exp<0?'SIN EDGE':'BREAKEVEN'}
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:0}}>
+        <MCard label="Riesgo validación" value={`$${riskV.toFixed(0)}`} sub={`${riskVal||0.5}% capital`}/>
+        <MCard label="Riesgo operando" value={`$${riskO.toFixed(0)}`} sub={`${riskOp||1.0}% capital`} accent/>
+      </div>
+
+      <Div/>
+
+      {/* Límites */}
+      <div className="lbl">Límites MCS</div>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:0}}>
+        <MCard label="Pérd. máx. día" value={`$${(capital*0.02).toFixed(0)}`} sub="2% del capital" danger/>
+        <MCard label="Máx. trades/día" value="2" sub="sin excepciones"/>
+        <MCard label="SL > 1.5% precio" value="Invalida" sub="zona mal definida" danger/>
+        <MCard label="Swing parado" value="48h" sub="cerrar posición"/>
+      </div>
+
+      <Div/>
+
+      {/* Expectativa */}
+      <div className="lbl">Expectativa del sistema</div>
+      <div className="formula">
+        E = (WR × RR) − (1 − WR)
+        <div style={{fontSize:11,marginTop:4,color:INK40,fontStyle:'italic'}}>E {'>'} 0 = sistema con edge estadístico</div>
+      </div>
+
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:20,marginBottom:16}}>
+        <FRow label="Win rate %" mb={0}>
+          <input className="finput" type="number" value={wr} min={1} max={99} step={1}
+            onChange={e=>{const n=parseFloat(e.target.value);if(!isNaN(n)&&n>=1&&n<=99)setState(s=>({...s,wr:n}));}}
+            style={{fontSize:18,fontFamily:"'Fraunces',serif",fontWeight:600}}
+          />
+        </FRow>
+        <FRow label="RR promedio" mb={0}>
+          <input className="finput" type="number" value={rr} min={0.5} max={10} step={0.1}
+            onChange={e=>{const n=parseFloat(e.target.value);if(!isNaN(n)&&n>=0.5&&n<=10)setState(s=>({...s,rr:parseFloat(n.toFixed(1))}));}}
+            style={{fontSize:18,fontFamily:"'Fraunces',serif",fontWeight:600}}
+          />
+        </FRow>
+      </div>
+
+      {/* Big expectativa result */}
+      <div style={{background:exp>0?BLUE2:exp<0?LOSSBG:BG2,border:`1px solid ${exp>0?BLUEB:exp<0?LOSSB:INK15}`,borderRadius:14,padding:'20px 20px',marginBottom:12,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+        <div>
+          <div style={{fontSize:10,color:exp>0?BLUE:exp<0?LOSS:INK40,textTransform:'uppercase',letterSpacing:'0.09em',fontWeight:600,marginBottom:4}}>Expectativa</div>
+          <div style={{fontFamily:"'Instrument Serif',serif",fontStyle:'italic',fontSize:13,color:exp>0?BLUE:exp<0?LOSS:INK70}}>
+            {exp>0?`+$${Math.abs(exp).toFixed(2)} por $1 arriesgado`:exp<0?`-$${Math.abs(exp).toFixed(2)} por $1 arriesgado`:'Sistema en breakeven'}
+          </div>
+        </div>
+        <div style={{fontSize:44,fontWeight:600,color:exp>0?BLUE:exp<0?LOSS:INK40,fontFamily:"'Fraunces',serif",letterSpacing:'-2px',lineHeight:1}}>{exp>0?'+':''}{exp}</div>
+      </div>
+      <div style={{display:'inline-block',fontSize:11,padding:'5px 16px',borderRadius:20,background:exp>0?BLUE2:exp<0?LOSSBG:BG2,color:exp>0?BLUE:exp<0?LOSS:INK70,fontWeight:700,letterSpacing:'0.07em',textTransform:'uppercase',border:`1px solid ${exp>0?BLUEB:exp<0?LOSSB:INK15}`}}>
+        {exp>0?'Con edge':exp<0?'Sin edge':'Breakeven'}
       </div>
     </div>
   );
@@ -1004,12 +1122,12 @@ function CalcTab({state,setState}){
 
 /* ── APP ── */
 const NAV=[
-  {id:'inicio',label:'Inicio',icon:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>},
-  {id:'mcs',label:'MCS',icon:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>},
-  {id:'trades',label:'Trades',icon:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>},
-  {id:'metricas',label:'Métricas',icon:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>},
-  {id:'semanas',label:'Plan',icon:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>},
-  {id:'calc',label:'Calc.',icon:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><rect x="4" y="2" width="16" height="20" rx="0"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="12" x2="10" y2="12"/><line x1="14" y1="12" x2="16" y2="12"/><line x1="8" y1="17" x2="10" y2="17"/><line x1="14" y1="17" x2="16" y2="17"/></svg>},
+  {id:'inicio',label:'Inicio',icon:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>},
+  {id:'metricas',label:'Métricas',icon:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>},
+  {id:'trades',label:'Trades',icon:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>},
+  {id:'mcs',label:'MCS',icon:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="12" x2="16" y2="14"/></svg>},
+  {id:'semanas',label:'Semanas',icon:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>},
+  {id:'calc',label:'Calc.',icon:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="12" x2="10" y2="12"/><line x1="14" y1="12" x2="16" y2="12"/><line x1="8" y1="17" x2="10" y2="17"/><line x1="14" y1="17" x2="16" y2="17"/></svg>},
 ];
 
 function App(){
@@ -1029,7 +1147,8 @@ function App(){
       <nav className="bnav">
         {NAV.map(({id,label,icon})=>(
           <button key={id} className={`nbtn${state.activeTab===id?' on':''}`} onClick={()=>set(s=>({...s,activeTab:id}))}>
-            {icon}<span>{label}</span>
+            {icon}
+            <span className="nbtn-lbl">{label}</span>
           </button>
         ))}
       </nav>
